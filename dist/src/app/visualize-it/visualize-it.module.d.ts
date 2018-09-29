@@ -1,2 +1,2 @@
-export declare class visualizeItModule {
+export declare class VisualizeItModule {
 }

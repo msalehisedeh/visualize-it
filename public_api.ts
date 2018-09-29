@@ -1,2 +1,2 @@
-export { visualizeItComponent } from './src/app/visualize-it/components/visualize-it.component';
-export { visualizeItModule } from './src/app/visualize-it/visualize-it.module';
+export { VisualizeItComponent } from './src/app/visualize-it/components/visualize-it.component';
+export { VisualizeItModule } from './src/app/visualize-it/visualize-it.module';

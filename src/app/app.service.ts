@@ -7,24 +7,34 @@ import 'rxjs/add/observable/of';
 export class AppService {
   constructor() { }
 
-  private names = [
-    {"id":"0", "size": 60, "group": 0, "name": "Androsynth", relatesTo:["1","2","3","4","5","6","7"]},
-    {"id":"1", "size": 10, "group": 2, "name": "Chenjesu", relatesTo:["3","4","5","6","8"]},
-    {"id":"2", "size": 60, "group": 4, "name": "Ilwrath", relatesTo:["4","5","6","9"]},
-    {"id":"3", "size": 10, "group": 6, "name": "Mycon", relatesTo:["5","6","10"]},
-    {"id":"4", "size": 60, "group": 8, "name": "Spathi", relatesTo:["11"]},
-    {"id":"5", "size": 10, "group": 1, "name": "Umgah", relatesTo:[,"6","12"]},
-    {"id":"6", "size": 10, "group": 1, "name": "VUX", relatesTo:["13"]},
-    {"id":"7", "size": 60, "group": 0, "name": "Guardian"},
-    {"id":"8", "size": 10, "group": 2, "name": "Broodhmome"},
-    {"id":"9", "size": 60, "group": 4, "name": "Avenger"},
-    {"id":"10", "size": 10, "group": 6, "name": "Podship"},
-    {"id":"11", "size": 60, "group": 8, "name": "Eluder"},
-    {"id":"12", "size": 10, "group": 1, "name": "Drone"},
-    {"id":"13", "size": 10, "group": 1, "name": "Intruder"}
-  ];
+  private data = {
+    roles: {
+      "circle": "Mentor",
+      "diamond": "Student",
+      "square": "Player",
+      "cross": "Observer",
+      "triangle-up": "Referre",
+      "triangle-down": "Organizer"
+    },
+    names: [
+      {"id":"0", "size": 60, "group": 0, "name": "Andria", type:"circle", sources:["1","2","3","4","5","6"]},
+      {"id":"1", "size": 10, "group": 2, "name": "Joshephine", type:"circle", sources:["3","4","5","6"]},
+      {"id":"2", "size": 60, "group": 4, "name": "Alfred", type:"diamond", sources:["4","5","6"]},
+      {"id":"3", "size": 10, "group": 6, "name": "Maya", type:"diamond", sources:["5","6"]},
+      {"id":"4", "size": 60, "group": 8, "name": "Ali", type:"square", sources:["11"]},
+      {"id":"5", "size": 10, "group": 1, "name": "Praya", type:"square", sources:["6","12"]},
+      {"id":"6", "size": 10, "group": 1, "name": "Ehsan", type:"square", sources:["13"]},
+      {"id":"7", "size": 60, "group": 0, "name": "Jane", type:"triangle-up", destinations:["0"]},
+      {"id":"8", "size": 10, "group": 2, "name": "Brad", type:"triangle-down", destinations:["1"]},
+      {"id":"9", "size": 60, "group": 4, "name": "Amarnath", type:"cross", destinations:["2"]},
+      {"id":"10", "size": 10, "group": 6, "name": "Mike", type:"cross", destinations:["3"]},
+      {"id":"11", "size": 60, "group": 8, "name": "Erick", type:"circle" },
+      {"id":"12", "size": 10, "group": 1, "name": "Gyline", type:"circle"},
+      {"id":"13", "size": 10, "group": 1, "name": "Hakim", type:"circle"}
+    ]
+  }
 
   usersList() {
-      return Observable.of(this.names);
+      return Observable.of(this.data);
   }
 }

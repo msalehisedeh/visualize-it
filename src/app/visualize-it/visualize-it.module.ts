@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { visualizeItComponent } from './components/visualize-it.component';
+import { VisualizeItComponent } from './components/visualize-it.component';
 
 
 @NgModule({
@@ -9,17 +9,17 @@ import { visualizeItComponent } from './components/visualize-it.component';
     CommonModule
   ],
   declarations: [
-    visualizeItComponent
+    VisualizeItComponent
   ],
   exports: [
-    visualizeItComponent
+    VisualizeItComponent
   ],
   entryComponents: [
-    visualizeItComponent
+    VisualizeItComponent
   ],
   providers: [
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
-export class visualizeItModule {}
+export class VisualizeItModule {}

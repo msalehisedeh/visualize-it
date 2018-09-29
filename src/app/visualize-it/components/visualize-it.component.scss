@@ -1,4 +1,41 @@
 :host {
+  position: relative;
+  display: inline-block;
+
+  .legends {
+    position: absolute;
+    right: 20px;
+    top: 22px;
+    z-index: 3;
+    width: 30px;
+    font-size: 1.2rem;
+    background-color: #eee;
+    padding: 3px 5px;
+    border-radius: 15px;
+    a {
+      cursor: pointer;
+      font-weight: bold;
+      &:hover {
+        color: #fff;
+      }
+    }
+    .info {
+      padding: 5px;
+      border: 1px solid #888;
+      border-radius: 5px;
+      position: absolute;
+      right: 0px;
+      font-size: 0.7rem;
+      white-space: pre;
+      line-height: 1rem;
+      box-shadow: 1px 1px 3px #bbb;
+      background-color: #fff;
+      strong {
+        color: #8f0000;
+      }
+    }
+  }
+  
   #d3-container {
     border: 1px solid #633;
     padding: 0 5px;

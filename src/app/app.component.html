@@ -43,8 +43,14 @@
   Submit
 </button>
 </div>
-<visualize-it *ngIf="!displayEntry"
-	[data]="myDataSet" width="calc(100vw - 44px)" height="400px"></visualize-it>
+<visualize-it 
+  *ngIf="!displayEntry" 
+  enableLegends="true"
+  width="calc(100vw - 44px)" 
+  height="400px"
+  showTypeOnHover="true"
+  [typeMapping]="myDataSet.roles"
+  [data]="myDataSet.names"></visualize-it>
 
 <table style="width:100%" *ngIf="!displayEntry">
   <thead>

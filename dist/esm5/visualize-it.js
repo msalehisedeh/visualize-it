@@ -6,15 +6,18 @@ import { CommonModule } from '@angular/common';
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-var visualizeItComponent = (function () {
-    function visualizeItComponent() {
+var VisualizeItComponent = (function () {
+    function VisualizeItComponent() {
+        this.showLegend = false;
+        this.showHelp = false;
+        this.typeMapping = {};
         this.onVisualization = new EventEmitter();
     }
     /**
      * @param {?} points
      * @return {?}
      */
-    visualizeItComponent.prototype.triggerEvaluation = function (points) {
+    VisualizeItComponent.prototype.triggerEvaluation = function (points) {
         if (points.length) {
             this.d3Container.nativeElement.innerHTML = "";
             var /** @type {?} */ indexOf_1 = {};
@@ -27,15 +30,21 @@ var visualizeItComponent = (function () {
                 dataSet_1.nodes.push({
                     size: node.size ? node.size : 10,
                     group: node.group ? node.group : 0,
+                    type: node.type && node.type.length ? node.type : "circle",
                     name: node.name
                 });
-                if (node.relatesTo) {
-                    node.relatesTo.map(function (id) {
+                if (node.sources) {
+                    node.sources.map(function (id) {
+                        dataSet_1.links.push({ source: indexOf_1[id], target: i });
+                    });
+                }
+                if (node.destinations) {
+                    node.destinations.map(function (id) {
                         dataSet_1.links.push({ source: i, target: indexOf_1[id] });
                     });
                 }
             });
-            window['initiateD3'](window.innerWidth, window.innerHeight, dataSet_1, "#d3-container");
+            window['initiateD3'](window.innerWidth, window.innerHeight, dataSet_1, this.typeMapping, this.showTypeOnHover, "#d3-container");
         }
         else {
             this.d3Container.nativeElement.innerHTML = "";
@@ -45,7 +54,7 @@ var visualizeItComponent = (function () {
      * @param {?} changes
      * @return {?}
      */
-    visualizeItComponent.prototype.ngOnChanges = function (changes) {
+    VisualizeItComponent.prototype.ngOnChanges = function (changes) {
         if (changes.data) {
             setTimeout(this.ngOnInit.bind(this), 333);
         }
@@ -53,7 +62,7 @@ var visualizeItComponent = (function () {
     /**
      * @return {?}
      */
-    visualizeItComponent.prototype.ngOnInit = function () {
+    VisualizeItComponent.prototype.ngOnInit = function () {
         if (!(this.data instanceof Array)) {
             this.data = [this.data];
         }
@@ -61,7 +70,7 @@ var visualizeItComponent = (function () {
     /**
      * @return {?}
      */
-    visualizeItComponent.prototype.ngAfterViewInit = function () {
+    VisualizeItComponent.prototype.ngAfterViewInit = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return tslib_1.__generator(this, function (_a) {
@@ -84,7 +93,7 @@ var visualizeItComponent = (function () {
      * @param {?} id
      * @return {?}
      */
-    visualizeItComponent.prototype.loadScript = function (url, id) {
+    VisualizeItComponent.prototype.loadScript = function (url, id) {
         return new Promise(function (resolve, reject) {
             var /** @type {?} */ scriptElement = document.createElement('script');
             scriptElement.type = "text/javascript";
@@ -97,22 +106,25 @@ var visualizeItComponent = (function () {
      * @param {?} event
      * @return {?}
      */
-    visualizeItComponent.prototype.onchange = function (event) {
+    VisualizeItComponent.prototype.onchange = function (event) {
         this.triggerEvaluation(event.points);
     };
-    return visualizeItComponent;
+    return VisualizeItComponent;
 }());
-visualizeItComponent.decorators = [
+VisualizeItComponent.decorators = [
     { type: Component, args: [{
                 selector: 'visualize-it',
-                template: "\n<div class=\"d3-container\"\n    [style.width]=\"width\"\n    [style.height]=\"height\"\n    id=\"d3-container\" #d3Container></div>\n",
-                styles: [":host #d3-container{\n  border:1px solid #633;\n  padding:0 5px;\n  -webkit-box-sizing:border-box;\n          box-sizing:border-box;\n  border-radius:5px;\n  background-color:#fefefe;\n  margin:5px;\n  overflow:hidden; }\n"],
+                template: "\n<div class=\"legends\" *ngIf=\"enableLegends\">\n    <a (click)=\"showLegend = !showLegend;showHelp = false\"><span class=\"legend\">&#9830;</span></a>\n    <a (click)=\"showLegend = false;showHelp = !showHelp\"><span class=\"help\">?</span></a>\n    <div class=\"info\" *ngIf=\"showLegend\">\n<b>Link types:</b>\n    <strong>Dotted line:</strong> Destination of a Node\n    <strong>Line:</strong> Source of a Node\n<b>Node types:</b>\n    <strong>circle</strong> - {{typeMapping['circle']}}\n    <strong>square</strong> - {{typeMapping['square']}}\n    <strong>triangle-up</strong> - {{typeMapping['triangle-up']}}\n    <strong>diamond</strong> - {{typeMapping['diamond']}}\n    <strong>cross</strong> - {{typeMapping['cross']}}\n    <strong>triangle-down</strong> - {{typeMapping['triangle-down']}}\n    </div>\n    <div class=\"info\" *ngIf=\"showHelp\">\n<b>Hover to highlight 1st-order neighborhood. Click to fade surroundings.</b>\n<b>Double-click to center node and zoom in. Hold SHIFT and Double-click to zoom out.</b>\n<b>Filter nodes by:</b>\n    <strong>SHIFT + \"C\" :</strong> Show/hide all circle {{typeMapping['circle'] ? \"(\" + typeMapping['circle'] + \")\" : \"\"}} nodes\n    <strong>SHIFT + \"S\" :</strong> Show/hide all square {{typeMapping['square'] ? \"(\" + typeMapping['square'] + \")\" : \"\"}} nodes\n    <strong>SHIFT + \"T\" :</strong> Show/hide all triangle-up {{typeMapping['triangle-up'] ? \"(\" + typeMapping['triangle-up'] + \")\" : \"\"}} nodes\n    <strong>SHIFT + \"R\" :</strong> Show/hide all diamond {{typeMapping['diamond'] ? \"(\" + typeMapping['diamond'] + \")\" : \"\"}} nodes\n    <strong>SHIFT + \"X\" :</strong> Show/hide all cross {{typeMapping['cross'] ? \"(\" + typeMapping['cross'] + \")\" : \"\"}} nodes\n    <strong>SHIFT + \"D\" :</strong> Show/hide all triangle-down {{typeMapping['triangle-down'] ? \"(\" + typeMapping['triangle-down'] + \")\" : \"\"}} nodes\n    <strong>SHIFT + \"L\" :</strong> Show/hide all low range group (%33) nodes\n    <strong>SHIFT + \"M\" :</strong> Show/hide all medium range group (%50) nodes\n    <strong>SHIFT + \"H\" :</strong> Show/hide all high range group (%66) nodes\n    <strong>SHIFT + \"1\" :</strong> Show/hide all low range group (%33) links\n    <strong>SHIFT + \"2\" :</strong> Show/hide all medium range group (%50) links\n    <strong>SHIFT + \"3\" :</strong> Show/hide all high range group (%66) links\n    </div>\n</div>\n<div class=\"d3-container\"\n    [style.width]=\"width\"\n    [style.height]=\"height\"\n    id=\"d3-container\" #d3Container></div>\n",
+                styles: [":host{\n  position:relative;\n  display:inline-block; }\n  :host .legends{\n    position:absolute;\n    right:20px;\n    top:22px;\n    z-index:3;\n    width:30px;\n    font-size:1.2rem;\n    background-color:#eee;\n    padding:3px 5px;\n    border-radius:15px; }\n    :host .legends a{\n      cursor:pointer;\n      font-weight:bold; }\n      :host .legends a:hover{\n        color:#fff; }\n    :host .legends .info{\n      padding:5px;\n      border:1px solid #888;\n      border-radius:5px;\n      position:absolute;\n      right:0px;\n      font-size:0.7rem;\n      white-space:pre;\n      line-height:1rem;\n      -webkit-box-shadow:1px 1px 3px #bbb;\n              box-shadow:1px 1px 3px #bbb;\n      background-color:#fff; }\n      :host .legends .info strong{\n        color:#8f0000; }\n  :host #d3-container{\n    border:1px solid #633;\n    padding:0 5px;\n    -webkit-box-sizing:border-box;\n            box-sizing:border-box;\n    border-radius:5px;\n    background-color:#fefefe;\n    margin:5px;\n    overflow:hidden; }\n"],
             },] },
 ];
 /** @nocollapse */
-visualizeItComponent.ctorParameters = function () { return []; };
-visualizeItComponent.propDecorators = {
+VisualizeItComponent.ctorParameters = function () { return []; };
+VisualizeItComponent.propDecorators = {
+    "enableLegends": [{ type: Input, args: ["enableLegends",] },],
+    "showTypeOnHover": [{ type: Input, args: ["showTypeOnHover",] },],
     "data": [{ type: Input, args: ["data",] },],
+    "typeMapping": [{ type: Input, args: ["typeMapping",] },],
     "width": [{ type: Input, args: ["width",] },],
     "height": [{ type: Input, args: ["height",] },],
     "onVisualization": [{ type: Output, args: ["onVisualization",] },],
@@ -122,31 +134,31 @@ visualizeItComponent.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-var visualizeItModule = (function () {
-    function visualizeItModule() {
+var VisualizeItModule = (function () {
+    function VisualizeItModule() {
     }
-    return visualizeItModule;
+    return VisualizeItModule;
 }());
-visualizeItModule.decorators = [
+VisualizeItModule.decorators = [
     { type: NgModule, args: [{
                 imports: [
                     CommonModule
                 ],
                 declarations: [
-                    visualizeItComponent
+                    VisualizeItComponent
                 ],
                 exports: [
-                    visualizeItComponent
+                    VisualizeItComponent
                 ],
                 entryComponents: [
-                    visualizeItComponent
+                    VisualizeItComponent
                 ],
                 providers: [],
                 schemas: [CUSTOM_ELEMENTS_SCHEMA]
             },] },
 ];
 /** @nocollapse */
-visualizeItModule.ctorParameters = function () { return []; };
+VisualizeItModule.ctorParameters = function () { return []; };
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
@@ -158,5 +170,5 @@ visualizeItModule.ctorParameters = function () { return []; };
 /**
  * Generated bundle index. Do not edit.
  */
-export { visualizeItComponent, visualizeItModule };
+export { VisualizeItComponent, VisualizeItModule };
 //# sourceMappingURL=visualize-it.js.map

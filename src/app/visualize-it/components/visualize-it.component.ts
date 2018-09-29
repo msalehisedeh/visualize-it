@@ -17,10 +17,22 @@ import {
   templateUrl: './visualize-it.component.html',
   styleUrls: ['./visualize-it.component.scss'],
 })
-export class visualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
+export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
+
+  showLegend = false;
+  showHelp = false;
+  
+  @Input("enableLegends")
+  enableLegends: boolean;
+
+  @Input("showTypeOnHover")
+  showTypeOnHover: boolean;
 
   @Input("data")
   data: any;
+
+  @Input("typeMapping")
+  typeMapping = {};
 
   @Input("width")
   width: string;
@@ -47,15 +59,21 @@ export class visualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
         dataSet.nodes.push({
           size: node.size ? node.size: 10, 
           group: node.group? node.group : 0, 
+          type: node.type && node.type.length ? node.type : "circle",
           name: node.name
         });
-        if(node.relatesTo) {
-          node.relatesTo.map( (id) => {
+        if(node.sources) {
+          node.sources.map( (id) => {
+            dataSet.links.push({source: indexOf[id], target: i});
+          })
+        }
+        if(node.destinations) {
+          node.destinations.map( (id) => {
             dataSet.links.push({source: i, target: indexOf[id]});
           })
         }
       })
-      window['initiateD3'](window.innerWidth, window.innerHeight, dataSet, "#d3-container");
+      window['initiateD3'](window.innerWidth, window.innerHeight, dataSet,this.typeMapping, this.showTypeOnHover, "#d3-container");
     } else {
       this.d3Container.nativeElement.innerHTML = "";
     }

@@ -1,6 +1,11 @@
 import { OnInit, OnChanges, AfterViewInit, EventEmitter } from '@angular/core';
-export declare class visualizeItComponent implements OnInit, AfterViewInit, OnChanges {
+export declare class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges {
+    showLegend: boolean;
+    showHelp: boolean;
+    enableLegends: boolean;
+    showTypeOnHover: boolean;
     data: any;
+    typeMapping: {};
     width: string;
     height: string;
     onVisualization: EventEmitter<{}>;

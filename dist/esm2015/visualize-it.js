@@ -6,8 +6,11 @@ import { CommonModule } from '@angular/common';
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-class visualizeItComponent {
+class VisualizeItComponent {
     constructor() {
+        this.showLegend = false;
+        this.showHelp = false;
+        this.typeMapping = {};
         this.onVisualization = new EventEmitter();
     }
     /**
@@ -27,15 +30,21 @@ class visualizeItComponent {
                 dataSet.nodes.push({
                     size: node.size ? node.size : 10,
                     group: node.group ? node.group : 0,
+                    type: node.type && node.type.length ? node.type : "circle",
                     name: node.name
                 });
-                if (node.relatesTo) {
-                    node.relatesTo.map((id) => {
+                if (node.sources) {
+                    node.sources.map((id) => {
+                        dataSet.links.push({ source: indexOf[id], target: i });
+                    });
+                }
+                if (node.destinations) {
+                    node.destinations.map((id) => {
                         dataSet.links.push({ source: i, target: indexOf[id] });
                     });
                 }
             });
-            window['initiateD3'](window.innerWidth, window.innerHeight, dataSet, "#d3-container");
+            window['initiateD3'](window.innerWidth, window.innerHeight, dataSet, this.typeMapping, this.showTypeOnHover, "#d3-container");
         }
         else {
             this.d3Container.nativeElement.innerHTML = "";
@@ -92,31 +101,99 @@ class visualizeItComponent {
         this.triggerEvaluation(event.points);
     }
 }
-visualizeItComponent.decorators = [
+VisualizeItComponent.decorators = [
     { type: Component, args: [{
                 selector: 'visualize-it',
                 template: `
+<div class="legends" *ngIf="enableLegends">
+    <a (click)="showLegend = !showLegend;showHelp = false"><span class="legend">&#9830;</span></a>
+    <a (click)="showLegend = false;showHelp = !showHelp"><span class="help">?</span></a>
+    <div class="info" *ngIf="showLegend">
+<b>Link types:</b>
+    <strong>Dotted line:</strong> Destination of a Node
+    <strong>Line:</strong> Source of a Node
+<b>Node types:</b>
+    <strong>circle</strong> - {{typeMapping['circle']}}
+    <strong>square</strong> - {{typeMapping['square']}}
+    <strong>triangle-up</strong> - {{typeMapping['triangle-up']}}
+    <strong>diamond</strong> - {{typeMapping['diamond']}}
+    <strong>cross</strong> - {{typeMapping['cross']}}
+    <strong>triangle-down</strong> - {{typeMapping['triangle-down']}}
+    </div>
+    <div class="info" *ngIf="showHelp">
+<b>Hover to highlight 1st-order neighborhood. Click to fade surroundings.</b>
+<b>Double-click to center node and zoom in. Hold SHIFT and Double-click to zoom out.</b>
+<b>Filter nodes by:</b>
+    <strong>SHIFT + "C" :</strong> Show/hide all circle {{typeMapping['circle'] ? "(" + typeMapping['circle'] + ")" : ""}} nodes
+    <strong>SHIFT + "S" :</strong> Show/hide all square {{typeMapping['square'] ? "(" + typeMapping['square'] + ")" : ""}} nodes
+    <strong>SHIFT + "T" :</strong> Show/hide all triangle-up {{typeMapping['triangle-up'] ? "(" + typeMapping['triangle-up'] + ")" : ""}} nodes
+    <strong>SHIFT + "R" :</strong> Show/hide all diamond {{typeMapping['diamond'] ? "(" + typeMapping['diamond'] + ")" : ""}} nodes
+    <strong>SHIFT + "X" :</strong> Show/hide all cross {{typeMapping['cross'] ? "(" + typeMapping['cross'] + ")" : ""}} nodes
+    <strong>SHIFT + "D" :</strong> Show/hide all triangle-down {{typeMapping['triangle-down'] ? "(" + typeMapping['triangle-down'] + ")" : ""}} nodes
+    <strong>SHIFT + "L" :</strong> Show/hide all low range group (%33) nodes
+    <strong>SHIFT + "M" :</strong> Show/hide all medium range group (%50) nodes
+    <strong>SHIFT + "H" :</strong> Show/hide all high range group (%66) nodes
+    <strong>SHIFT + "1" :</strong> Show/hide all low range group (%33) links
+    <strong>SHIFT + "2" :</strong> Show/hide all medium range group (%50) links
+    <strong>SHIFT + "3" :</strong> Show/hide all high range group (%66) links
+    </div>
+</div>
 <div class="d3-container"
     [style.width]="width"
     [style.height]="height"
     id="d3-container" #d3Container></div>
 `,
-                styles: [`:host #d3-container{
-  border:1px solid #633;
-  padding:0 5px;
-  -webkit-box-sizing:border-box;
-          box-sizing:border-box;
-  border-radius:5px;
-  background-color:#fefefe;
-  margin:5px;
-  overflow:hidden; }
+                styles: [`:host{
+  position:relative;
+  display:inline-block; }
+  :host .legends{
+    position:absolute;
+    right:20px;
+    top:22px;
+    z-index:3;
+    width:30px;
+    font-size:1.2rem;
+    background-color:#eee;
+    padding:3px 5px;
+    border-radius:15px; }
+    :host .legends a{
+      cursor:pointer;
+      font-weight:bold; }
+      :host .legends a:hover{
+        color:#fff; }
+    :host .legends .info{
+      padding:5px;
+      border:1px solid #888;
+      border-radius:5px;
+      position:absolute;
+      right:0px;
+      font-size:0.7rem;
+      white-space:pre;
+      line-height:1rem;
+      -webkit-box-shadow:1px 1px 3px #bbb;
+              box-shadow:1px 1px 3px #bbb;
+      background-color:#fff; }
+      :host .legends .info strong{
+        color:#8f0000; }
+  :host #d3-container{
+    border:1px solid #633;
+    padding:0 5px;
+    -webkit-box-sizing:border-box;
+            box-sizing:border-box;
+    border-radius:5px;
+    background-color:#fefefe;
+    margin:5px;
+    overflow:hidden; }
 `],
             },] },
 ];
 /** @nocollapse */
-visualizeItComponent.ctorParameters = () => [];
-visualizeItComponent.propDecorators = {
+VisualizeItComponent.ctorParameters = () => [];
+VisualizeItComponent.propDecorators = {
+    "enableLegends": [{ type: Input, args: ["enableLegends",] },],
+    "showTypeOnHover": [{ type: Input, args: ["showTypeOnHover",] },],
     "data": [{ type: Input, args: ["data",] },],
+    "typeMapping": [{ type: Input, args: ["typeMapping",] },],
     "width": [{ type: Input, args: ["width",] },],
     "height": [{ type: Input, args: ["height",] },],
     "onVisualization": [{ type: Output, args: ["onVisualization",] },],
@@ -127,28 +204,28 @@ visualizeItComponent.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-class visualizeItModule {
+class VisualizeItModule {
 }
-visualizeItModule.decorators = [
+VisualizeItModule.decorators = [
     { type: NgModule, args: [{
                 imports: [
                     CommonModule
                 ],
                 declarations: [
-                    visualizeItComponent
+                    VisualizeItComponent
                 ],
                 exports: [
-                    visualizeItComponent
+                    VisualizeItComponent
                 ],
                 entryComponents: [
-                    visualizeItComponent
+                    VisualizeItComponent
                 ],
                 providers: [],
                 schemas: [CUSTOM_ELEMENTS_SCHEMA]
             },] },
 ];
 /** @nocollapse */
-visualizeItModule.ctorParameters = () => [];
+VisualizeItModule.ctorParameters = () => [];
 
 /**
  * @fileoverview added by tsickle
@@ -163,5 +240,5 @@ visualizeItModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { visualizeItComponent, visualizeItModule };
+export { VisualizeItComponent, VisualizeItModule };
 //# sourceMappingURL=visualize-it.js.map
