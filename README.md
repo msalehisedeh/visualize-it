@@ -85,7 +85,7 @@ in your `.angular-cli.json` file include the following:
 
       "assets": [
         "assets",
-        { "glob": "**/*", "input": "../node_modules/visualize-it/assets/", "output": "./assets/" },
+        { "glob": "**/*", "input": "../node_modules/visualize-it/src/assets/", "output": "./assets/" },
         "favicon.ico"
       ],
 
