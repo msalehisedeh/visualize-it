@@ -109,32 +109,32 @@ VisualizeItComponent.decorators = [
     <a (click)="showLegend = !showLegend;showHelp = false"><span class="legend">&#9830;</span></a>
     <a (click)="showLegend = false;showHelp = !showHelp"><span class="help">?</span></a>
     <div class="info" *ngIf="showLegend">
-<b>Link types:</b>
-    <strong>Dotted line:</strong> Destination of a Node
-    <strong>Line:</strong> Source of a Node
-<b>Node types:</b>
-    <strong>circle</strong> - {{typeMapping['circle']}}
-    <strong>square</strong> - {{typeMapping['square']}}
-    <strong>triangle-up</strong> - {{typeMapping['triangle-up']}}
-    <strong>diamond</strong> - {{typeMapping['diamond']}}
-    <strong>cross</strong> - {{typeMapping['cross']}}
+<b>Link types:</b><br/>
+    <strong>Dotted line:</strong> Destination of a Node<br/>
+    <strong>Line:</strong> Source of a Node<br/>
+<br/><b>Node types:</b><br/>
+    <strong>circle</strong> - {{typeMapping['circle']}}<br/>
+    <strong>square</strong> - {{typeMapping['square']}}<br/>
+    <strong>triangle-up</strong> - {{typeMapping['triangle-up']}}<br/>
+    <strong>diamond</strong> - {{typeMapping['diamond']}}<br/>
+    <strong>cross</strong> - {{typeMapping['cross']}}<br/>
     <strong>triangle-down</strong> - {{typeMapping['triangle-down']}}
     </div>
     <div class="info" *ngIf="showHelp">
-<b>Hover to highlight 1st-order neighborhood. Click to fade surroundings.</b>
-<b>Double-click to center node and zoom in. Hold SHIFT and Double-click to zoom out.</b>
-<b>Filter nodes by:</b>
-    <strong>SHIFT + "C" :</strong> Show/hide all circle {{typeMapping['circle'] ? "(" + typeMapping['circle'] + ")" : ""}} nodes
-    <strong>SHIFT + "S" :</strong> Show/hide all square {{typeMapping['square'] ? "(" + typeMapping['square'] + ")" : ""}} nodes
-    <strong>SHIFT + "T" :</strong> Show/hide all triangle-up {{typeMapping['triangle-up'] ? "(" + typeMapping['triangle-up'] + ")" : ""}} nodes
-    <strong>SHIFT + "R" :</strong> Show/hide all diamond {{typeMapping['diamond'] ? "(" + typeMapping['diamond'] + ")" : ""}} nodes
-    <strong>SHIFT + "X" :</strong> Show/hide all cross {{typeMapping['cross'] ? "(" + typeMapping['cross'] + ")" : ""}} nodes
-    <strong>SHIFT + "D" :</strong> Show/hide all triangle-down {{typeMapping['triangle-down'] ? "(" + typeMapping['triangle-down'] + ")" : ""}} nodes
-    <strong>SHIFT + "L" :</strong> Show/hide all low range group (%33) nodes
-    <strong>SHIFT + "M" :</strong> Show/hide all medium range group (%50) nodes
-    <strong>SHIFT + "H" :</strong> Show/hide all high range group (%66) nodes
-    <strong>SHIFT + "1" :</strong> Show/hide all low range group (%33) links
-    <strong>SHIFT + "2" :</strong> Show/hide all medium range group (%50) links
+<b>Hover to highlight 1st-order neighbourhood. Click to fade surroundings.</b><br/>
+<b>Double-click to center node and zoom in. Hold SHIFT and Double-click to zoom out.</b><br/><br/>
+<b>Filter nodes by:</b><br/>
+    <strong>SHIFT + "C" :</strong> Show/hide all circle {{typeMapping['circle'] ? "(" + typeMapping['circle'] + ")" : ""}} nodes<br/>
+    <strong>SHIFT + "S" :</strong> Show/hide all square {{typeMapping['square'] ? "(" + typeMapping['square'] + ")" : ""}} nodes<br/>
+    <strong>SHIFT + "T" :</strong> Show/hide all triangle-up {{typeMapping['triangle-up'] ? "(" + typeMapping['triangle-up'] + ")" : ""}} nodes<br/>
+    <strong>SHIFT + "R" :</strong> Show/hide all diamond {{typeMapping['diamond'] ? "(" + typeMapping['diamond'] + ")" : ""}} nodes<br/>
+    <strong>SHIFT + "X" :</strong> Show/hide all cross {{typeMapping['cross'] ? "(" + typeMapping['cross'] + ")" : ""}} nodes<br/>
+    <strong>SHIFT + "D" :</strong> Show/hide all triangle-down {{typeMapping['triangle-down'] ? "(" + typeMapping['triangle-down'] + ")" : ""}} nodes<br/>
+    <strong>SHIFT + "L" :</strong> Show/hide all low range group (%33) nodes<br/>
+    <strong>SHIFT + "M" :</strong> Show/hide all medium range group (%50) nodes<br/>
+    <strong>SHIFT + "H" :</strong> Show/hide all high range group (%66) nodes<br/>
+    <strong>SHIFT + "1" :</strong> Show/hide all low range group (%33) links<br/>
+    <strong>SHIFT + "2" :</strong> Show/hide all medium range group (%50) links<br/>
     <strong>SHIFT + "3" :</strong> Show/hide all high range group (%66) links
     </div>
 </div>
@@ -168,13 +168,15 @@ VisualizeItComponent.decorators = [
       position:absolute;
       right:0px;
       font-size:0.7rem;
-      white-space:pre;
       line-height:1rem;
       -webkit-box-shadow:1px 1px 3px #bbb;
               box-shadow:1px 1px 3px #bbb;
-      background-color:#fff; }
+      background-color:#fff;
+      width:350px; }
       :host .legends .info strong{
-        color:#8f0000; }
+        color:#8f0000;
+        font-size:0.8rem;
+        margin-left:20px; }
   :host #d3-container{
     border:1px solid #633;
     padding:0 5px;

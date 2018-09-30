@@ -8,6 +8,9 @@ This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The in
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
 
+## Version 1.2.2
+Legend information ended up displaying in single line after compilation and uploading to npm. fixed the issue.
+
 ## Version 1.2.0
 Added ability to see node types on hover and updated legend text.
 
