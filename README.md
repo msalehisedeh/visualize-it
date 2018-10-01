@@ -3,10 +3,13 @@
 Have you ever wanted to visually look at a set of interconnected data and derive insightful information from it? 
 Have you wondered how long will it take to do it? Well... wonder no more and add this component into your project... 
 
-This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The intension here is to make it easier to use and make it accessible to anular application.
+This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The intension here is to make it easier to use and make it accessible to angular application.
 
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
+
+## Version 1.2.3
+Added Arrows directionality on links. Updated code to allow you toggle displaying of arrows and toggle displaying of node categories with node names.
 
 ## Version 1.2.2
 Legend information ended up displaying in single line after compilation and uploading to npm. fixed the issue.

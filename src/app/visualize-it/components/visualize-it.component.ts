@@ -28,6 +28,9 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
   @Input("showTypeOnHover")
   showTypeOnHover: boolean;
 
+  @Input("showDirections")
+  showDirections: boolean;
+
   @Input("data")
   data: any;
 
@@ -73,7 +76,14 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
           })
         }
       })
-      window['initiateD3'](window.innerWidth, window.innerHeight, dataSet,this.typeMapping, this.showTypeOnHover, "#d3-container");
+      window['initiateD3'](
+        window.innerWidth, 
+        window.innerHeight, 
+        dataSet,
+        this.typeMapping, 
+        this.showTypeOnHover, 
+        this.showDirections,
+        "#d3-container");
     } else {
       this.d3Container.nativeElement.innerHTML = "";
     }

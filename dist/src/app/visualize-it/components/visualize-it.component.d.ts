@@ -4,6 +4,7 @@ export declare class VisualizeItComponent implements OnInit, AfterViewInit, OnCh
     showHelp: boolean;
     enableLegends: boolean;
     showTypeOnHover: boolean;
+    showDirections: boolean;
     data: any;
     typeMapping: {};
     width: string;

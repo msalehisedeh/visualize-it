@@ -44,7 +44,7 @@ class VisualizeItComponent {
                     });
                 }
             });
-            window['initiateD3'](window.innerWidth, window.innerHeight, dataSet, this.typeMapping, this.showTypeOnHover, "#d3-container");
+            window['initiateD3'](window.innerWidth, window.innerHeight, dataSet, this.typeMapping, this.showTypeOnHover, this.showDirections, "#d3-container");
         }
         else {
             this.d3Container.nativeElement.innerHTML = "";
@@ -106,37 +106,45 @@ VisualizeItComponent.decorators = [
                 selector: 'visualize-it',
                 template: `
 <div class="legends" *ngIf="enableLegends">
-    <a (click)="showLegend = !showLegend;showHelp = false"><span class="legend">&#9830;</span></a>
+    <a (click)="showLegend = !showLegend;showHelp = false"><span class="legend">&#9826;</span></a>
     <a (click)="showLegend = false;showHelp = !showHelp"><span class="help">?</span></a>
-    <div class="info" *ngIf="showLegend">
-<b>Link types:</b><br/>
-    <strong>Dotted line:</strong> Destination of a Node<br/>
-    <strong>Line:</strong> Source of a Node<br/>
-<br/><b>Node types:</b><br/>
-    <strong>circle</strong> - {{typeMapping['circle']}}<br/>
-    <strong>square</strong> - {{typeMapping['square']}}<br/>
-    <strong>triangle-up</strong> - {{typeMapping['triangle-up']}}<br/>
-    <strong>diamond</strong> - {{typeMapping['diamond']}}<br/>
-    <strong>cross</strong> - {{typeMapping['cross']}}<br/>
-    <strong>triangle-down</strong> - {{typeMapping['triangle-down']}}
-    </div>
-    <div class="info" *ngIf="showHelp">
-<b>Hover to highlight 1st-order neighbourhood. Click to fade surroundings.</b><br/>
-<b>Double-click to center node and zoom in. Hold SHIFT and Double-click to zoom out.</b><br/><br/>
-<b>Filter nodes by:</b><br/>
-    <strong>SHIFT + "C" :</strong> Show/hide all circle {{typeMapping['circle'] ? "(" + typeMapping['circle'] + ")" : ""}} nodes<br/>
-    <strong>SHIFT + "S" :</strong> Show/hide all square {{typeMapping['square'] ? "(" + typeMapping['square'] + ")" : ""}} nodes<br/>
-    <strong>SHIFT + "T" :</strong> Show/hide all triangle-up {{typeMapping['triangle-up'] ? "(" + typeMapping['triangle-up'] + ")" : ""}} nodes<br/>
-    <strong>SHIFT + "R" :</strong> Show/hide all diamond {{typeMapping['diamond'] ? "(" + typeMapping['diamond'] + ")" : ""}} nodes<br/>
-    <strong>SHIFT + "X" :</strong> Show/hide all cross {{typeMapping['cross'] ? "(" + typeMapping['cross'] + ")" : ""}} nodes<br/>
-    <strong>SHIFT + "D" :</strong> Show/hide all triangle-down {{typeMapping['triangle-down'] ? "(" + typeMapping['triangle-down'] + ")" : ""}} nodes<br/>
-    <strong>SHIFT + "L" :</strong> Show/hide all low range group (%33) nodes<br/>
-    <strong>SHIFT + "M" :</strong> Show/hide all medium range group (%50) nodes<br/>
-    <strong>SHIFT + "H" :</strong> Show/hide all high range group (%66) nodes<br/>
-    <strong>SHIFT + "1" :</strong> Show/hide all low range group (%33) links<br/>
-    <strong>SHIFT + "2" :</strong> Show/hide all medium range group (%50) links<br/>
-    <strong>SHIFT + "3" :</strong> Show/hide all high range group (%66) links
-    </div>
+    <fieldset class="info" *ngIf="showLegend">
+        <legend>Definitions</legend>
+        <b>Link types:</b><br/>
+        <strong>Dotted line:</strong> Destination of a Node<br/>
+        <strong>Line:</strong> Source of a Node<br/>
+        <span *ngIf="showDirections"><strong>Line Arrow:</strong> Pointing toward the destination.<br/></span>
+        <br/><b>Node types:</b><br/>
+        <span *ngIf="typeMapping['circle']"><strong>Circle</strong> - {{typeMapping['circle']}}<br/></span>
+        <span *ngIf="typeMapping['cross']"><strong>Cross</strong> - {{typeMapping['cross']}}<br/></span>
+        <span *ngIf="typeMapping['diamond']"><strong>Diamond</strong> - {{typeMapping['diamond']}}<br/></span>
+        <span *ngIf="typeMapping['square']"><strong>Square</strong> - {{typeMapping['square']}}<br/></span>
+        <span *ngIf="typeMapping['triangle-down']"><strong>Triangle-down</strong> - {{typeMapping['triangle-down']}}<br/></span>
+        <span *ngIf="typeMapping['triangle-up']"><strong>Triangle-up</strong> - {{typeMapping['triangle-up']}}<br/></span>
+    </fieldset>
+    <fieldset class="info" *ngIf="showHelp">
+        <legend>Tips</legend>
+        <b>Hover on a node to highlight 1st-order neighbourhood.</b><br/>
+        <b>Hold mouse down on a node to fade surroundings.</b><br/>
+        <b>Double-click to center node and zoom in.</b><br/>
+        <b>Hold SHIFT and Double-click to zoom out.</b><br/><br/>
+        <b>Filter nodes by:</b><br/>
+        <strong>"!" :</strong> Show/hide node category on hover<br/>
+        <strong>"#" :</strong> Show/hide link arrow direction<br/>
+        <strong>"@" :</strong> Show/hide node names or node category<br/>
+        <span *ngIf="typeMapping['circle']"><strong>"C" :</strong> Show/hide all circle ( {{typeMapping['circle']}} ) nodes<br/></span>
+        <span *ngIf="typeMapping['cross']"><strong>"X" :</strong> Show/hide all cross ( {{typeMapping['cross']}} ) nodes<br/></span>
+        <span *ngIf="typeMapping['diamond']"><strong>"R" :</strong> Show/hide all diamond ( {{typeMapping['diamond']}} ) nodes<br/></span>
+        <span *ngIf="typeMapping['square']"><strong>"S" :</strong> Show/hide all square ( {{typeMapping['square']}} ) nodes<br/></span>
+        <span *ngIf="typeMapping['triangle-down']"><strong>"D" :</strong> Show/hide all triangle-down ( {{ typeMapping['triangle-down']}} ) nodes<br/></span>
+        <span *ngIf="typeMapping['triangle-up']"><strong>"T" :</strong> Show/hide all triangle-up ( {{typeMapping['triangle-up']}} ) nodes<br/></span>
+        <strong>"L" :</strong> Show/hide all low range group (%33) nodes<br/>
+        <strong>"M" :</strong> Show/hide all medium range group (%50) nodes<br/>
+        <strong>"H" :</strong> Show/hide all high range group (%66) nodes<br/>
+        <strong>"1" :</strong> Show/hide all low range group (%33) links<br/>
+        <strong>"2" :</strong> Show/hide all medium range group (%50) links<br/>
+        <strong>"3" :</strong> Show/hide all high range group (%66) links
+    </fieldset>
 </div>
 <div class="d3-container"
     [style.width]="width"
@@ -146,12 +154,24 @@ VisualizeItComponent.decorators = [
                 styles: [`:host{
   position:relative;
   display:inline-block; }
+  :host path.link{
+    fill:none;
+    stroke:#666;
+    stroke-width:1.5px; }
+  :host circle{
+    fill:#ccc;
+    stroke:#fff;
+    stroke-width:1.5px; }
+  :host text{
+    fill:#000;
+    font:10px sans-serif;
+    pointer-events:none; }
   :host .legends{
     position:absolute;
     right:20px;
     top:22px;
     z-index:3;
-    width:30px;
+    width:35px;
     font-size:1.2rem;
     background-color:#eee;
     padding:3px 5px;
@@ -160,7 +180,7 @@ VisualizeItComponent.decorators = [
       cursor:pointer;
       font-weight:bold; }
       :host .legends a:hover{
-        color:#fff; }
+        color:#b65200; }
     :host .legends .info{
       padding:5px;
       border:1px solid #888;
@@ -194,6 +214,7 @@ VisualizeItComponent.ctorParameters = () => [];
 VisualizeItComponent.propDecorators = {
     "enableLegends": [{ type: Input, args: ["enableLegends",] },],
     "showTypeOnHover": [{ type: Input, args: ["showTypeOnHover",] },],
+    "showDirections": [{ type: Input, args: ["showDirections",] },],
     "data": [{ type: Input, args: ["data",] },],
     "typeMapping": [{ type: Input, args: ["typeMapping",] },],
     "width": [{ type: Input, args: ["width",] },],
