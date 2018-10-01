@@ -39,6 +39,7 @@ EXPORTS:
 |typeMapping               |Optional  |mapping types to help user using thie tool.                 |
 |showTypeOnHover           |Optional  |Show the node type when hovering over it. Default is false. |
 |enableLegends             |Optional  |allow user see the help section.                            |
+|showDirections            |Optional  |Display arrow directions on links.                          |
 
 ## Data Attributes Structure
 The JSON objects list passed in as data, should have the following attributes:
@@ -73,14 +74,28 @@ Run `npm install visualize-it` in your application. and do the following:
 in your html:
 ```javascript
 <visualize-it	
-  [data]="myDataSet" 
-  [typeMapping]="myTypeMapping" 
+  [data]="data.names" 
+  [typeMapping]="data.roles" 
   enableLegends="true"
   showTypeOnHover="true"
+  showDirections="true"
   width="calc(100vw - 44px)" 
   height="400px"></visualize-it>
 
-Where myTypeMapping is a mapping of shapes to explain them. For example, if you are including a circle you can identify what a circe represents.
+Where typeMapping is a mapping of shapes to explain them. A sample data could be like the following:
+{
+    roles: {
+      "circle": "Mentor",
+      "diamond": "Student"
+    },
+    names: [
+      {"id":"0", "size": 60, "group": 0, "name": "Andria", type:"circle", sources:["1","2"]},
+      {"id":"1", "size": 10, "group": 2, "name": "Joshephine", type:"circle", sources:["3","4"]},
+      {"id":"2", "size": 60, "group": 4, "name": "Alfred", type:"diamond", sources:["4"]},
+      {"id":"3", "size": 10, "group": 6, "name": "Maya", type:"diamond"]},
+      {"id":"4", "size": 60, "group": 8, "name": "Ali", type:"diamond"}
+    ]
+}
 ```
 
 in your `.angular-cli.json` file include the following:

@@ -36,7 +36,10 @@ var focusNode = null, highlightNode = null;
 
 var textCenter = false;
 var outline = false;
+
 var showTypeOnHover = false;
+var showRoles = false;
+var showArrows = false;
 
 var minColorGroup = 0;
 var maxColorGroup = 1;
@@ -48,13 +51,14 @@ var g;
 var color;
 var size;
 
-function initiateD3(width, height, g, types, showType, div) {
+function initiateD3(width, height, g, types, showType, displayArrows, div) {
   w = width;
   h = height;
   graph = g;
   targetDiv = div;
   mapping = types;
   showTypeOnHover = showType;
+  showArrows = displayArrows
   
   color = d3.scale.linear()
   .domain([minColorGroup, (minColorGroup+maxColorGroup)/2, maxColorGroup])
@@ -72,6 +76,21 @@ function initiateD3(width, height, g, types, showType, div) {
   g = svg.append("g");
   svg.style("cursor","move");
 
+  if (showArrows) {
+    svg.append("svg:defs").append("svg:marker")
+    .attr("id", "triangle")
+    .attr("viewBox", "0 -5 10 10")
+    .attr("refX", 33)
+    .attr("refY", 0)
+    .attr("markerWidth", 4)
+    .attr("markerHeight", 4)
+    .attr("orient", "auto")
+    .append("path")
+    .attr("d", "M0,-5L10,0L0,5")
+    .style("display",function(d) { return showArrows ? "inline":"none"})
+    .style("fill", "black");
+  }
+
   graph.links.forEach(function(d) {
     if (d.source && d.target) {
       linkedByIndex[d.source + "," + d.target] = true;
@@ -87,6 +106,7 @@ function initiateD3(width, height, g, types, showType, div) {
     .data(graph.links)
     .enter().append("line")
     .attr("class", "link")
+    .attr("marker-end", "url(#triangle)")
     .style("stroke-width",config.nominalStroke)
     .style("stroke", function(d) { 
       if (isNumber(d.group) && d.group>=0) return color(d.group/10);
@@ -124,11 +144,14 @@ function initiateD3(width, height, g, types, showType, div) {
   .style("font-size", config.nominalTextSize + "px")
 
   if (textCenter){
-   text.text(function(d) { return d.name; })
-  .style("text-anchor", "middle");
+   text.text(function(d) { 
+     return showRoles && mapping[d.type] ? '\u2002'+mapping[d.type] : '\u2002'+d.name; 
+  }).style("text-anchor", "middle");
   } else {
-  text.attr("dx", function(d) {return (size(d.size)||config.nominalBaseNodeSize);})
-    .text(function(d) { return '\u2002'+d.name; });
+    text.attr("dx", function(d) {return (size(d.size)||config.nominalBaseNodeSize);})
+      .text(function(d) { 
+        return showRoles && mapping[d.type] ? '\u2002'+mapping[d.type] : '\u2002'+d.name; 
+      });
   }
   node.on("mouseover", function(d) {
     setHighlight(d);
@@ -225,7 +248,7 @@ function exitHighlight() {
       link.style("stroke", function(o) {return (isNumber(o.group) && o.group>=0)?color(o.group/10):config.defaultLinkColor});
     }  
     text.text(function(o) {
-      return o.name;
+      return showRoles && mapping[o.type] ? '\u2002'+mapping[o.type] : '\u2002'+o.name; 
     });
   }
 }
@@ -255,7 +278,7 @@ function setHighlight(d) {
       circle.style(towhite, function(o) {return isConnected(d, o) ? highlightColor : "white";});
       text.style("font-weight", function(o) {return isConnected(d, o) ? "bold" : "normal";});
       text.text(function(o) {
-        return (showTypeOnHover && isConnected(d, o) && mapping[o.type]) ? o.name +" ["+ mapping[o.type]+"]" : o.name
+        return ((!showRoles && showTypeOnHover && isConnected(d, o) && mapping[o.type]) ? '\u2002'+o.name +" ["+ mapping[o.type]+"]" : (showRoles &&  mapping[o.type] ? '\u2002'+mapping[o.type] : '\u2002'+o.name))
       });
       link.style("stroke", function(o) {
         return o.source.index == d.index || o.target.index == d.index ? 
@@ -277,7 +300,7 @@ function resize() {
 function keydown() {
 if (d3.event.keyCode==32) {  force.stop();}
 else if (d3.event.keyCode>=48 && d3.event.keyCode<=90 && !d3.event.ctrlKey && !d3.event.altKey && !d3.event.metaKey) {
-  switch (String.fromCharCode(d3.event.keyCode)) {
+  switch (String(d3.event.key)) {
     case "C": keyc = !keyc; break;
     case "S": keys = !keys; break;
     case "T": keyt = !keyt; break;
@@ -291,17 +314,24 @@ else if (d3.event.keyCode>=48 && d3.event.keyCode<=90 && !d3.event.ctrlKey && !d
     case "2": key2 = !key2; break;
     case "3": key3 = !key3; break;
     case "0": key0 = !key0; break;
+    case "#": showArrows = !showArrows; break;
+    case "!": showTypeOnHover = !showTypeOnHover; break;
+    case "@": showRoles = !showRoles; 
+    text.text(function(o) {
+      return showRoles && mapping[o.type] ? '\u2002'+mapping[o.type] : '\u2002'+o.name; 
+    });
+    break;
   }
   link.style("display", function(d) {
     var flag  = visitByType(d.source.type)&&visitByType(d.target.type)&&visitByNodeColorGroup(d.source.group)&&visitByNodeColorGroup(d.target.group)&&visitByLinkColorGroup(d.group);
     linkedByIndex[d.source.index + "," + d.target.index] = flag;
     return flag?"inline":"none";
-  });
+  }).attr("marker-end", function(d) { return showArrows ? "url(#triangle)": ""});
   node.style("display", function(d) {
     return (key0||hasConnections(d))&&visitByType(d.type)&&visitByNodeColorGroup(d.group)?"inline":"none";});
   text.style("display", function(d) {
     return (key0||hasConnections(d))&&visitByType(d.type)&&visitByNodeColorGroup(d.group)?"inline":"none";});
-        
+
   if (highlightNode !== null) {
     if ((key0||hasConnections(highlightNode))&&visitByType(highlightNode.type)&&visitByNodeColorGroup(highlightNode.group)) { 
       if (focusNode!==null) setFocus(focusNode);
