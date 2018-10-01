@@ -74,15 +74,15 @@ Run `npm install visualize-it` in your application. and do the following:
 in your html:
 ```javascript
 <visualize-it	
-  [data]="myDataSet" 
-  [typeMapping]="myTypeMapping" 
+  [data]="data.names" 
+  [typeMapping]="data.roles" 
   enableLegends="true"
   showTypeOnHover="true"
+  showDirections="true"
   width="calc(100vw - 44px)" 
   height="400px"></visualize-it>
 
-Where myTypeMapping is a mapping of shapes to explain them. For example, if you are including a circle you can identify what a circe represents.
-A sample data could be like the following:
+Where typeMapping is a mapping of shapes to explain them. A sample data could be like the following:
 {
     roles: {
       "circle": "Mentor",
