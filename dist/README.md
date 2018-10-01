@@ -8,6 +8,9 @@ This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The in
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
 
+## Version 1.3.0
+Added Ability to display details of a node in tooltip.
+
 ## Version 1.2.3
 Added Arrows directionality on links. Updated code to allow you toggle displaying of arrows and toggle displaying of node categories with node names.
 
@@ -40,6 +43,7 @@ EXPORTS:
 |showTypeOnHover           |Optional  |Show the node type when hovering over it. Default is false. |
 |enableLegends             |Optional  |allow user see the help section.                            |
 |showDirections            |Optional  |Display arrow directions on links.                          |
+|enableTooltip             |Optional  |Display tooltip on focus key down.                          |
 
 ## Data Attributes Structure
 The JSON objects list passed in as data, should have the following attributes:
@@ -89,11 +93,11 @@ Where typeMapping is a mapping of shapes to explain them. A sample data could be
       "diamond": "Student"
     },
     names: [
-      {"id":"0", "size": 60, "group": 0, "name": "Andria", type:"circle", sources:["1","2"]},
-      {"id":"1", "size": 10, "group": 2, "name": "Joshephine", type:"circle", sources:["3","4"]},
-      {"id":"2", "size": 60, "group": 4, "name": "Alfred", type:"diamond", sources:["4"]},
-      {"id":"3", "size": 10, "group": 6, "name": "Maya", type:"diamond"]},
-      {"id":"4", "size": 60, "group": 8, "name": "Ali", type:"diamond"}
+      {"id":"0", "size": 60, "group": 0, data: {age: 22, sex: "female", score: 5657567}, "name": "Andria", type:"circle", sources:["1","2"]},
+      {"id":"1", "size": 10, "group": 2, data: {age: 32, sex: "female", score: 5756756}, "name": "Joshephine", type:"circle", sources:["3","4"]},
+      {"id":"2", "size": 60, "group": 4, data: {age: 54, sex: "male", score: 2343423}, "name": "Alfred", type:"diamond", sources:["4"]},
+      {"id":"3", "size": 10, "group": 6, data: {age: 43, sex: "female", score: 8675755}, "name": "Maya", type:"diamond"]},
+      {"id":"4", "size": 60, "group": 8, data: {age: 33, sex: "male", score: 9678678}, "name": "Ali", type:"diamond"}
     ]
 }
 ```

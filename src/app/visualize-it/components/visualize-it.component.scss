@@ -65,4 +65,14 @@
     margin: 5px;
     overflow: hidden;
   }
+  ::ng-deep div.tooltip {	
+    position: absolute;			
+    padding: 5px;				
+    font: 12px sans-serif;		
+    background: #cfcfcf;	
+    border: 1px solid #3a3939;		
+    border-radius: 4px;			
+    pointer-events: none;		
+    z-index: 5;	
+  }
 }

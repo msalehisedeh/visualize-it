@@ -31,7 +31,8 @@ class VisualizeItComponent {
                     size: node.size ? node.size : 10,
                     group: node.group ? node.group : 0,
                     type: node.type && node.type.length ? node.type : "circle",
-                    name: node.name
+                    name: node.name,
+                    data: node.data ? node.data : []
                 });
                 if (node.sources) {
                     node.sources.map((id) => {
@@ -44,7 +45,7 @@ class VisualizeItComponent {
                     });
                 }
             });
-            window['initiateD3'](window.innerWidth, window.innerHeight, dataSet, this.typeMapping, this.showTypeOnHover, this.showDirections, "#d3-container");
+            window['initiateD3'](window.innerWidth, window.innerHeight, dataSet, this.typeMapping, this.showTypeOnHover, this.showDirections, this.enableTooltip, "#d3-container");
         }
         else {
             this.d3Container.nativeElement.innerHTML = "";
@@ -132,12 +133,13 @@ VisualizeItComponent.decorators = [
         <strong>"!" :</strong> Show/hide node category on hover<br/>
         <strong>"#" :</strong> Show/hide link arrow direction<br/>
         <strong>"@" :</strong> Show/hide node names or node category<br/>
+        <strong>"T" :</strong> Enable/disable displaying of Tooltip<br/>
         <span *ngIf="typeMapping['circle']"><strong>"C" :</strong> Show/hide all circle ( {{typeMapping['circle']}} ) nodes<br/></span>
         <span *ngIf="typeMapping['cross']"><strong>"X" :</strong> Show/hide all cross ( {{typeMapping['cross']}} ) nodes<br/></span>
         <span *ngIf="typeMapping['diamond']"><strong>"R" :</strong> Show/hide all diamond ( {{typeMapping['diamond']}} ) nodes<br/></span>
         <span *ngIf="typeMapping['square']"><strong>"S" :</strong> Show/hide all square ( {{typeMapping['square']}} ) nodes<br/></span>
         <span *ngIf="typeMapping['triangle-down']"><strong>"D" :</strong> Show/hide all triangle-down ( {{ typeMapping['triangle-down']}} ) nodes<br/></span>
-        <span *ngIf="typeMapping['triangle-up']"><strong>"T" :</strong> Show/hide all triangle-up ( {{typeMapping['triangle-up']}} ) nodes<br/></span>
+        <span *ngIf="typeMapping['triangle-up']"><strong>"U" :</strong> Show/hide all triangle-up ( {{typeMapping['triangle-up']}} ) nodes<br/></span>
         <strong>"L" :</strong> Show/hide all low range group (%33) nodes<br/>
         <strong>"M" :</strong> Show/hide all medium range group (%50) nodes<br/>
         <strong>"H" :</strong> Show/hide all high range group (%66) nodes<br/>
@@ -206,12 +208,22 @@ VisualizeItComponent.decorators = [
     background-color:#fefefe;
     margin:5px;
     overflow:hidden; }
+  :host ::ng-deep div.tooltip{
+    position:absolute;
+    padding:5px;
+    font:12px sans-serif;
+    background:#cfcfcf;
+    border:1px solid #3a3939;
+    border-radius:4px;
+    pointer-events:none;
+    z-index:5; }
 `],
             },] },
 ];
 /** @nocollapse */
 VisualizeItComponent.ctorParameters = () => [];
 VisualizeItComponent.propDecorators = {
+    "enableTooltip": [{ type: Input, args: ["enableTooltip",] },],
     "enableLegends": [{ type: Input, args: ["enableLegends",] },],
     "showTypeOnHover": [{ type: Input, args: ["showTypeOnHover",] },],
     "showDirections": [{ type: Input, args: ["showDirections",] },],

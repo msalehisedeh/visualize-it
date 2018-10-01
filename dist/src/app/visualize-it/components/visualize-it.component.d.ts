@@ -2,6 +2,7 @@ import { OnInit, OnChanges, AfterViewInit, EventEmitter } from '@angular/core';
 export declare class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges {
     showLegend: boolean;
     showHelp: boolean;
+    enableTooltip: boolean;
     enableLegends: boolean;
     showTypeOnHover: boolean;
     showDirections: boolean;

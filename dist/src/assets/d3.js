@@ -22,6 +22,7 @@ var linkedByIndex = {};
 var sourceLinks = {};
 var link;
 var node;
+var tooltip;
 var tocolor = "fill";
 var towhite = "stroke";
 if (outline) {
@@ -40,6 +41,7 @@ var outline = false;
 var showTypeOnHover = false;
 var showRoles = false;
 var showArrows = false;
+var enabledNodeTooltip = false;
 
 var minColorGroup = 0;
 var maxColorGroup = 1;
@@ -51,14 +53,15 @@ var g;
 var color;
 var size;
 
-function initiateD3(width, height, g, types, showType, displayArrows, div) {
+function initiateD3(width, height, g, types, showType, displayArrows, enableTooltip, div) {
   w = width;
   h = height;
   graph = g;
   targetDiv = div;
   mapping = types;
   showTypeOnHover = showType;
-  showArrows = displayArrows
+  showArrows = displayArrows;
+  enabledNodeTooltip = enableTooltip;
   
   color = d3.scale.linear()
   .domain([minColorGroup, (minColorGroup+maxColorGroup)/2, maxColorGroup])
@@ -89,6 +92,9 @@ function initiateD3(width, height, g, types, showType, displayArrows, div) {
     .attr("d", "M0,-5L10,0L0,5")
     .style("display",function(d) { return showArrows ? "inline":"none"})
     .style("fill", "black");
+  }
+  if (enabledNodeTooltip) {
+    tooltip = d3.select(targetDiv).append("div").attr("class", "tooltip").style("opacity", 0);
   }
 
   graph.links.forEach(function(d) {
@@ -246,6 +252,10 @@ function exitHighlight() {
       circle.style(towhite, "white");
       text.style("font-weight", "normal");
       link.style("stroke", function(o) {return (isNumber(o.group) && o.group>=0)?color(o.group/10):config.defaultLinkColor});
+
+      if (tooltip) {
+        tooltip.transition().duration(500).style("opacity", 0);	
+      }
     }  
     text.text(function(o) {
       return showRoles && mapping[o.type] ? '\u2002'+mapping[o.type] : '\u2002'+o.name; 
@@ -264,6 +274,27 @@ function setFocus(d) {
     link.style("opacity", function(o) {
       return o.source.index == d.index || o.target.index == d.index ? 1 : highlightTrans;
     });		
+    if (enabledNodeTooltip && tooltip && d.data) {
+      var content = "";
+      if (typeof d.data === "object") {
+        var p = Object.keys(d.data);
+        for (var i = 0; i < p.length; i++) {
+          var key = p[i];
+          var dValue = d.data[key];
+
+          dValue = (typeof dValue === "object") ? JSON.stringify(dValue) : dValue;
+          content += "<strong>" + key + ": </strong>" + dValue + "<br/>";
+        }
+      } else {
+        content = d.data;
+      }
+      tooltip.html(content);	
+      tooltip.transition()		
+          .duration(200)		
+          .style("opacity", .9);		
+      tooltip.style("left", (d3.event.pageX + 150) + "px")		
+          .style("top", (d3.event.pageY - 120) + "px");  
+    }
   }
 }
 
@@ -303,7 +334,7 @@ else if (d3.event.keyCode>=48 && d3.event.keyCode<=90 && !d3.event.ctrlKey && !d
   switch (String(d3.event.key)) {
     case "C": keyc = !keyc; break;
     case "S": keys = !keys; break;
-    case "T": keyt = !keyt; break;
+    case "U": keyt = !keyt; break;
     case "R": keyr = !keyr; break;
     case "X": keyx = !keyx; break;
     case "D": keyd = !keyd; break;
@@ -314,6 +345,7 @@ else if (d3.event.keyCode>=48 && d3.event.keyCode<=90 && !d3.event.ctrlKey && !d
     case "2": key2 = !key2; break;
     case "3": key3 = !key3; break;
     case "0": key0 = !key0; break;
+    case "T": enabledNodeTooltip = !enabledNodeTooltip; break;
     case "#": showArrows = !showArrows; break;
     case "!": showTypeOnHover = !showTypeOnHover; break;
     case "@": showRoles = !showRoles; 

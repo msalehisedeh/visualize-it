@@ -22,6 +22,9 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
   showLegend = false;
   showHelp = false;
   
+  @Input("enableTooltip")
+  enableTooltip: boolean;
+
   @Input("enableLegends")
   enableLegends: boolean;
 
@@ -63,7 +66,8 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
           size: node.size ? node.size: 10, 
           group: node.group? node.group : 0, 
           type: node.type && node.type.length ? node.type : "circle",
-          name: node.name
+          name: node.name,
+          data: node.data ? node.data : []
         });
         if(node.sources) {
           node.sources.map( (id) => {
@@ -83,6 +87,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
         this.typeMapping, 
         this.showTypeOnHover, 
         this.showDirections,
+        this.enableTooltip,
         "#d3-container");
     } else {
       this.d3Container.nativeElement.innerHTML = "";
