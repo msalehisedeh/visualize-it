@@ -111,6 +111,8 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
       await this.loadScript("assets/d3.js", 'd3js').then( () => {
         this.triggerEvaluation(this.data);
       });
+    } else {
+      this.triggerEvaluation(this.data);
     }
  	}
    

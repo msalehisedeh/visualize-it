@@ -8,6 +8,9 @@ This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The in
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
 
+## Version 1.3.1
+Fixed a logic on displaying data when request is sent for the second time.
+
 ## Version 1.3.0
 Added Ability to display details of a node in tooltip.
 

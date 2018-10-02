@@ -78,6 +78,9 @@ class VisualizeItComponent {
                     this.triggerEvaluation(this.data);
                 });
             }
+            else {
+                this.triggerEvaluation(this.data);
+            }
         });
     }
     /**
@@ -156,33 +159,30 @@ VisualizeItComponent.decorators = [
                 styles: [`:host{
   position:relative;
   display:inline-block; }
-  :host path.link{
-    fill:none;
-    stroke:#666;
-    stroke-width:1.5px; }
-  :host circle{
-    fill:#ccc;
-    stroke:#fff;
-    stroke-width:1.5px; }
-  :host text{
-    fill:#000;
-    font:10px sans-serif;
-    pointer-events:none; }
   :host .legends{
     position:absolute;
     right:20px;
     top:22px;
-    z-index:3;
-    width:35px;
-    font-size:1.2rem;
-    background-color:#eee;
-    padding:3px 5px;
-    border-radius:15px; }
+    z-index:3; }
     :host .legends a{
       cursor:pointer;
-      font-weight:bold; }
+      font-weight:bold;
+      font-size:1.2rem; }
+      :host .legends a span{
+        background-color:#eee;
+        padding:0 3px;
+        width:13px;
+        float:left;
+        height:25px;
+        line-height:25px; }
+      :host .legends a .legend{
+        border-radius:15px 0 0 15px; }
+      :host .legends a .help{
+        border-radius:0 15px 15px 0; }
       :host .legends a:hover{
-        color:#b65200; }
+        color:#fff; }
+        :host .legends a:hover span{
+          background-color:#b65200; }
     :host .legends .info{
       padding:5px;
       border:1px solid #888;
@@ -194,7 +194,12 @@ VisualizeItComponent.decorators = [
       -webkit-box-shadow:1px 1px 3px #bbb;
               box-shadow:1px 1px 3px #bbb;
       background-color:#fff;
-      width:350px; }
+      width:350px;
+      top:15px; }
+      :host .legends .info legend{
+        color:#af8d03;
+        font-size:1rem;
+        font-weight:bold; }
       :host .legends .info strong{
         color:#8f0000;
         font-size:0.8rem;
@@ -208,6 +213,18 @@ VisualizeItComponent.decorators = [
     background-color:#fefefe;
     margin:5px;
     overflow:hidden; }
+  :host ::ng-deep path.link{
+    fill:none;
+    stroke:#666;
+    stroke-width:1.5px; }
+  :host ::ng-deep circle{
+    fill:#ccc;
+    stroke:#fff;
+    stroke-width:1.5px; }
+  :host ::ng-deep text{
+    fill:#000;
+    font:10px sans-serif;
+    pointer-events:none; }
   :host ::ng-deep div.tooltip{
     position:absolute;
     padding:5px;

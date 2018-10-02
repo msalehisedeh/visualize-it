@@ -1,40 +1,38 @@
 :host {
   position: relative;
   display: inline-block;
-
-  path.link {
-    fill: none;
-    stroke: #666;
-    stroke-width: 1.5px;
-  }
-  
-  circle {
-    fill: #ccc;
-    stroke: #fff;
-    stroke-width: 1.5px;
-  }
-  
-  text {
-    fill: #000;
-    font: 10px sans-serif;
-    pointer-events: none;
-  }
   
   .legends {
     position: absolute;
     right: 20px;
     top: 22px;
     z-index: 3;
-    width: 35px;
-    font-size: 1.2rem;
-    background-color: #eee;
-    padding: 3px 5px;
-    border-radius: 15px;
     a {
       cursor: pointer;
       font-weight: bold;
+      font-size: 1.2rem;
+
+      span {
+        background-color: #eee;
+        padding: 0 3px;
+        width: 13px;
+        float: left;
+        height: 25px;
+        line-height: 25px;
+      }
+
+      .legend {
+        border-radius: 15px 0 0 15px;
+      }
+      .help {
+        border-radius: 0 15px 15px 0;
+      }
       &:hover {
-        color: #b65200;
+        color: #fff;
+
+        span {
+          background-color: #b65200;
+        }
       }
     }
     .info {
@@ -47,11 +45,17 @@
       line-height: 1rem;
       box-shadow: 1px 1px 3px #bbb;
       background-color: #fff;
-	  width: 350px;
+      width: 350px;
+      top: 15px;
+      legend {
+        color: #af8d03;
+        font-size: 1rem;
+        font-weight: bold;
+      }
       strong {
         color: #8f0000;
-		font-size: 0.8rem;
-		margin-left: 20px;
+        font-size: 0.8rem;
+        margin-left: 20px;
       }
     }
   }
@@ -64,6 +68,22 @@
     background-color: #fefefe;
     margin: 5px;
     overflow: hidden;
+  }
+
+  ::ng-deep path.link {
+    fill: none;
+    stroke: #666;
+    stroke-width: 1.5px;
+  }
+  ::ng-deep circle {
+    fill: #ccc;
+    stroke: #fff;
+    stroke-width: 1.5px;
+  }
+  ::ng-deep text {
+    fill: #000;
+    font: 10px sans-serif;
+    pointer-events: none;
   }
   ::ng-deep div.tooltip {	
     position: absolute;			
