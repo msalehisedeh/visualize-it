@@ -3,16 +3,19 @@
 Have you ever wanted to visually look at a set of interconnected data and derive insightful information from it? 
 Have you wondered how long will it take to do it? Well... wonder no more and add this component into your project... 
 
-This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The intension here is to make it easier to use and make it accessible to angular application.
+This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The intention here is to make it easier to use and make it accessible to angular application.
 
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
+
+## Version 1.3.2
+Trying to fix issue with stackblitz.
 
 ## Version 1.3.1
 Fixed a logic on displaying data when request is sent for the second time.
 
 ## Version 1.3.0
-Added Ability to display details of a node in tooltip.
+Added Ability to display details of a node in tool-tip.
 
 ## Version 1.2.3
 Added Arrows directionality on links. Updated code to allow you toggle displaying of arrows and toggle displaying of node categories with node names.
@@ -42,11 +45,11 @@ EXPORTS:
 |width                     |Required  |width of display area.                                      |
 |height                    |Required  |height of display area.                                     |
 |data                      |Required  |data containing node relationship to be displayed           |
-|typeMapping               |Optional  |mapping types to help user using thie tool.                 |
+|typeMapping               |Optional  |mapping types to help user using this tool.                 |
 |showTypeOnHover           |Optional  |Show the node type when hovering over it. Default is false. |
 |enableLegends             |Optional  |allow user see the help section.                            |
 |showDirections            |Optional  |Display arrow directions on links.                          |
-|enableTooltip             |Optional  |Display tooltip on focus key down.                          |
+|enableTooltip             |Optional  |Display tool-tip on focus key down.                          |
 
 ## Data Attributes Structure
 The JSON objects list passed in as data, should have the following attributes:
@@ -57,7 +60,7 @@ The JSON objects list passed in as data, should have the following attributes:
 |name                      |Required  |Name to be displayed.                                     |
 |group                     |Required  |Group used to associate a color to all objects in the same group. |
 |size                      |Required  |Size of the displayed node.                               |
-|type                      |Optional  |Type of the node determining its shape if it is a square, circle, diamons, cross, tringle-up, or triangle-down. |
+|type                      |Optional  |Type of the node determining its shape if it is a square, circle, diamonds, cross, triangle-up, or triangle-down. |
 |sources                   |Optional  |List of IDs of other objects as a source to this one.     |
 |destinations              |Optional  |List of IDs of other objects as a destination to this one.|
 
