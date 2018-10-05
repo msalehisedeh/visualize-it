@@ -1,7 +1,9 @@
-import { OnInit, OnChanges, AfterViewInit, EventEmitter } from '@angular/core';
+import { OnInit, OnChanges, AfterViewInit, EventEmitter, ElementRef } from '@angular/core';
 export declare class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges {
+    private el;
     showLegend: boolean;
     showHelp: boolean;
+    expanded: boolean;
     enableTooltip: boolean;
     enableLegends: boolean;
     showTypeOnHover: boolean;
@@ -12,10 +14,12 @@ export declare class VisualizeItComponent implements OnInit, AfterViewInit, OnCh
     height: string;
     onVisualization: EventEmitter<{}>;
     d3Container: any;
+    constructor(el: ElementRef);
     private triggerEvaluation(points);
     ngOnChanges(changes: any): void;
     ngOnInit(): void;
     ngAfterViewInit(): Promise<void>;
     private loadScript(url, id);
+    expand(flag: any): void;
     onchange(event: any): void;
 }

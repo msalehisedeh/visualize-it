@@ -8,6 +8,9 @@ This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The in
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
 
+## Version 1.3.3
+Added ability to show the graph in full screen mode.
+
 ## Version 1.3.2
 Trying to fix issue with stackblitz.
 

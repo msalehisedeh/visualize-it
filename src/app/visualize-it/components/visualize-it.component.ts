@@ -9,7 +9,8 @@ import {
   Input,
   Output,
   ViewChild,
-  EventEmitter
+  EventEmitter,
+  ElementRef
 } from '@angular/core';
 
 @Component({
@@ -21,6 +22,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
 
   showLegend = false;
   showHelp = false;
+  expanded = false;
   
   @Input("enableTooltip")
   enableTooltip: boolean;
@@ -51,6 +53,10 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
 
   @ViewChild("d3Container")
   d3Container;
+
+  constructor(private el: ElementRef){
+
+  }
 
   private triggerEvaluation(points) {
     if (points.length) {
@@ -127,7 +133,36 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
       document.body.appendChild(scriptElement);
 		})
   }
-  
+
+  expand(flag) {
+    this.expanded = flag;
+
+    const doc: any = document;
+
+    if (flag) {
+      const element: any = doc.documentElement;
+      if(element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if(element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if(element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+      } else if(element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+      this.el.nativeElement.classList.add("expanded-container");
+    } else {
+      if(doc.exitFullscreen) {
+        doc.exitFullscreen();
+      } else if(doc.mozCancelFullScreen) {
+        doc.mozCancelFullScreen();
+      } else if(doc.webkitExitFullscreen) {
+        doc.webkitExitFullscreen();
+      }
+      this.el.nativeElement.classList.remove("expanded-container");
+    }
+  }
+
   onchange(event) {
     this.triggerEvaluation(event.points);
   }

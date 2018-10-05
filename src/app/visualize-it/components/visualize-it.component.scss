@@ -1,12 +1,27 @@
 :host {
   position: relative;
   display: inline-block;
+
+  &.expanded-container {
+    position: inherit !important;
+    
+    .d3-container{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      border: 0 !important;
+      margin: 0 !important;
+      z-index: 3;
+    }
+  }
   
   .legends {
     position: absolute;
-    right: 20px;
-    top: 22px;
-    z-index: 3;
+    right: 12px;
+    top: 5px;
+    z-index: 4;
     a {
       cursor: pointer;
       font-weight: bold;
@@ -21,6 +36,9 @@
         line-height: 25px;
       }
 
+      .expand {
+        text-align: center;
+      }
       .legend {
         border-radius: 15px 0 0 15px;
       }

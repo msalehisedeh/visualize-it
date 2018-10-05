@@ -1,5 +1,5 @@
 import { __awaiter } from 'tslib';
-import { Component, Input, Output, ViewChild, EventEmitter, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, Input, Output, ViewChild, EventEmitter, ElementRef, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /**
@@ -7,9 +7,14 @@ import { CommonModule } from '@angular/common';
  * @suppress {checkTypes} checked by tsc
  */
 class VisualizeItComponent {
-    constructor() {
+    /**
+     * @param {?} el
+     */
+    constructor(el) {
+        this.el = el;
         this.showLegend = false;
         this.showHelp = false;
+        this.expanded = false;
         this.typeMapping = {};
         this.onVisualization = new EventEmitter();
     }
@@ -98,6 +103,42 @@ class VisualizeItComponent {
         });
     }
     /**
+     * @param {?} flag
+     * @return {?}
+     */
+    expand(flag) {
+        this.expanded = flag;
+        const /** @type {?} */ doc = document;
+        if (flag) {
+            const /** @type {?} */ element = doc.documentElement;
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            }
+            else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            }
+            else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            }
+            else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+            this.el.nativeElement.classList.add("expanded-container");
+        }
+        else {
+            if (doc.exitFullscreen) {
+                doc.exitFullscreen();
+            }
+            else if (doc.mozCancelFullScreen) {
+                doc.mozCancelFullScreen();
+            }
+            else if (doc.webkitExitFullscreen) {
+                doc.webkitExitFullscreen();
+            }
+            this.el.nativeElement.classList.remove("expanded-container");
+        }
+    }
+    /**
      * @param {?} event
      * @return {?}
      */
@@ -110,8 +151,10 @@ VisualizeItComponent.decorators = [
                 selector: 'visualize-it',
                 template: `
 <div class="legends" *ngIf="enableLegends">
-    <a (click)="showLegend = !showLegend;showHelp = false"><span class="legend">&#9826;</span></a>
-    <a (click)="showLegend = false;showHelp = !showHelp"><span class="help">?</span></a>
+    <a (click)="showLegend = !showLegend;showHelp = false" title="show Legend"><span class="legend">&#9826;</span></a>
+    <a *ngIf="!expanded" (click)="expand(true)" title="show in full screen"><span class="expand">&#9859;</span></a>
+    <a *ngIf="expanded" (click)="expand(false)" title="show in normal screen"><span class="expand">&#9860;</span></a>
+    <a (click)="showLegend = false;showHelp = !showHelp" title="show help"><span class="help">?</span></a>
     <fieldset class="info" *ngIf="showLegend">
         <legend>Definitions</legend>
         <b>Link types:</b><br/>
@@ -159,11 +202,22 @@ VisualizeItComponent.decorators = [
                 styles: [`:host{
   position:relative;
   display:inline-block; }
+  :host.expanded-container{
+    position:inherit !important; }
+    :host.expanded-container .d3-container{
+      position:absolute;
+      top:0;
+      left:0;
+      width:100vw !important;
+      height:100vh !important;
+      border:0 !important;
+      margin:0 !important;
+      z-index:3; }
   :host .legends{
     position:absolute;
-    right:20px;
-    top:22px;
-    z-index:3; }
+    right:12px;
+    top:5px;
+    z-index:4; }
     :host .legends a{
       cursor:pointer;
       font-weight:bold;
@@ -175,6 +229,8 @@ VisualizeItComponent.decorators = [
         float:left;
         height:25px;
         line-height:25px; }
+      :host .legends a .expand{
+        text-align:center; }
       :host .legends a .legend{
         border-radius:15px 0 0 15px; }
       :host .legends a .help{
@@ -238,7 +294,9 @@ VisualizeItComponent.decorators = [
             },] },
 ];
 /** @nocollapse */
-VisualizeItComponent.ctorParameters = () => [];
+VisualizeItComponent.ctorParameters = () => [
+    { type: ElementRef, },
+];
 VisualizeItComponent.propDecorators = {
     "enableTooltip": [{ type: Input, args: ["enableTooltip",] },],
     "enableLegends": [{ type: Input, args: ["enableLegends",] },],
