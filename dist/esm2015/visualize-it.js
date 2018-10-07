@@ -17,6 +17,27 @@ class VisualizeItComponent {
         this.expanded = false;
         this.typeMapping = {};
         this.onVisualization = new EventEmitter();
+        document.addEventListener("webkitfullscreenchange", (event) => {
+            if (!window.screenTop && !window.screenY) {
+                this.expand(false);
+            }
+        });
+        document.addEventListener("mozfullscreenchange", (event) => {
+            const /** @type {?} */ win = window;
+            const /** @type {?} */ isFullScreen = win.fullScreen ||
+                (win.innerWidth == screen.width && win.innerHeight == screen.height);
+            if (!isFullScreen) {
+                this.expand(false);
+            }
+        });
+        document.addEventListener("MSFullscreenChange", (event) => {
+            const /** @type {?} */ win = window;
+            const /** @type {?} */ isFullScreen = win.fullScreen ||
+                (win.innerWidth == screen.width && win.innerHeight == screen.height);
+            if (!isFullScreen) {
+                this.expand(false);
+            }
+        });
     }
     /**
      * @param {?} points
@@ -24,12 +45,13 @@ class VisualizeItComponent {
      */
     triggerEvaluation(points) {
         if (points.length) {
-            this.d3Container.nativeElement.innerHTML = "";
             const /** @type {?} */ indexOf = {};
+            const /** @type {?} */ errors = [];
             const /** @type {?} */ dataSet = {
                 links: [],
                 nodes: []
             };
+            this.d3Container.nativeElement.innerHTML = "";
             points.map((node, index) => indexOf[node.id] = index);
             points.map((node, i) => {
                 dataSet.nodes.push({
@@ -41,19 +63,37 @@ class VisualizeItComponent {
                 });
                 if (node.sources) {
                     node.sources.map((id) => {
-                        dataSet.links.push({ source: indexOf[id], target: i });
+                        const /** @type {?} */ item = indexOf[id];
+                        if (item != undefined) {
+                            dataSet.links.push({ source: item, target: i });
+                        }
+                        else {
+                            errors.push("Missing source node '" + id + "' for node '" + node.id + "'.");
+                        }
                     });
                 }
                 if (node.destinations) {
                     node.destinations.map((id) => {
-                        dataSet.links.push({ source: i, target: indexOf[id] });
+                        const /** @type {?} */ item = indexOf[id];
+                        if (item != undefined) {
+                            dataSet.links.push({ source: i, target: item });
+                        }
+                        else {
+                            errors.push("Missing destination node '" + id + "' for node '" + node.id + "'.");
+                        }
                     });
                 }
             });
-            window['initiateD3'](window.innerWidth, window.innerHeight, dataSet, this.typeMapping, this.showTypeOnHover, this.showDirections, this.enableTooltip, "#d3-container");
+            if (errors.length) {
+                this.d3Container.nativeElement.innerHTML = "<div class='danger'>" + errors.join("<br/>") + "</div>";
+            }
+            else {
+                const /** @type {?} */ offset = { x: this.el.nativeElement.offsetLeft, y: this.el.nativeElement.offsetTop };
+                window['initiateD3'](window.innerWidth, window.innerHeight, offset, dataSet, this.typeMapping, this.showTypeOnHover, this.showDirections, this.enableTooltip, "#d3-container");
+            }
         }
         else {
-            this.d3Container.nativeElement.innerHTML = "";
+            this.d3Container.nativeElement.innerHTML = "<div class='danger'>Missing data.</div>";
         }
     }
     /**
@@ -107,7 +147,6 @@ class VisualizeItComponent {
      * @return {?}
      */
     expand(flag) {
-        this.expanded = flag;
         const /** @type {?} */ doc = document;
         if (flag) {
             const /** @type {?} */ element = doc.documentElement;
@@ -124,6 +163,7 @@ class VisualizeItComponent {
                 element.msRequestFullscreen();
             }
             this.el.nativeElement.classList.add("expanded-container");
+            this.expanded = true;
         }
         else {
             if (doc.exitFullscreen) {
@@ -136,6 +176,7 @@ class VisualizeItComponent {
                 doc.webkitExitFullscreen();
             }
             this.el.nativeElement.classList.remove("expanded-container");
+            this.expanded = false;
         }
     }
     /**
@@ -151,10 +192,10 @@ VisualizeItComponent.decorators = [
                 selector: 'visualize-it',
                 template: `
 <div class="legends" *ngIf="enableLegends">
-    <a (click)="showLegend = !showLegend;showHelp = false" title="show Legend"><span class="legend">&#9826;</span></a>
-    <a *ngIf="!expanded" (click)="expand(true)" title="show in full screen"><span class="expand">&#9859;</span></a>
-    <a *ngIf="expanded" (click)="expand(false)" title="show in normal screen"><span class="expand">&#9860;</span></a>
-    <a (click)="showLegend = false;showHelp = !showHelp" title="show help"><span class="help">?</span></a>
+    <a tabindex="0" (click)="showLegend = !showLegend;showHelp = false" title="show Legend"><span class="legend">&#9826;</span></a>
+    <a *ngIf="!expanded" tabindex="0" (click)="expand(true)" title="show in full screen"><span class="expand">&#9859;</span></a>
+    <a *ngIf="expanded" tabindex="0" (click)="expand(false)" title="show in normal screen"><span class="expand">&#9860;</span></a>
+    <a tabindex="0" (click)="showLegend = false;showHelp = !showHelp" title="show help"><span class="help">?</span></a>
     <fieldset class="info" *ngIf="showLegend">
         <legend>Definitions</legend>
         <b>Link types:</b><br/>
@@ -195,13 +236,14 @@ VisualizeItComponent.decorators = [
     </fieldset>
 </div>
 <div class="d3-container"
+    tabindex="0"
     [style.width]="width"
     [style.height]="height"
     id="d3-container" #d3Container></div>
 `,
                 styles: [`:host{
   position:relative;
-  display:inline-block; }
+  display:block; }
   :host.expanded-container{
     position:inherit !important; }
     :host.expanded-container .d3-container{
@@ -262,13 +304,18 @@ VisualizeItComponent.decorators = [
         margin-left:20px; }
   :host #d3-container{
     border:1px solid #633;
-    padding:0 5px;
     -webkit-box-sizing:border-box;
             box-sizing:border-box;
     border-radius:5px;
     background-color:#fefefe;
     margin:5px;
     overflow:hidden; }
+    :host #d3-container ::ng-deep .danger{
+      background-color:#a80505;
+      color:#fff;
+      padding:10px;
+      display:table;
+      width:100%; }
   :host ::ng-deep path.link{
     fill:none;
     stroke:#666;

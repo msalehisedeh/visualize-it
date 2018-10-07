@@ -52,8 +52,9 @@ var zoom
 var g;
 var color;
 var size;
+var drag;
 
-function initiateD3(width, height, g, types, showType, displayArrows, enableTooltip, div) {
+function initiateD3(width, height, offset, g, types, showType, displayArrows, enableTooltip, div) {
   w = width;
   h = height;
   graph = g;
@@ -74,6 +75,7 @@ function initiateD3(width, height, g, types, showType, displayArrows, enableTool
   .charge(-300)
   .size([w,h]);
 
+  drag = force.drag().on("dragstart", dragstart);
   svg = d3.select(targetDiv).append("svg");
   zoom = d3.behavior.zoom().scaleExtent([config.minZoom,config.maxZoom])
   g = svg.append("g");
@@ -103,6 +105,9 @@ function initiateD3(width, height, g, types, showType, displayArrows, enableTool
       sourceLinks[d.source]=d.source;
     }
   });
+
+  g.attr("transform", "translate(-"+ offset.x + ", -" + offset.y  + ")");
+
   force
     .nodes(graph.nodes)
     .links(graph.links)
@@ -124,7 +129,7 @@ function initiateD3(width, height, g, types, showType, displayArrows, enableTool
     .data(graph.nodes)
     .enter().append("g")
     .attr("class", "node")
-    .call(force.drag)
+    .call(drag);
   
   node.on("dblclick.zoom", function(d) {
     d3.event.stopPropagation();
@@ -228,12 +233,13 @@ d3.select(window).on("resize", resize).on("keydown", keydown);
 
 }
 window['initiateD3'] = initiateD3;
-    // "nodes": [
-    //   {"size": 60, "group": 0, "id": "Androsynth", "type": "circle"}
-    // ]
 
 function isConnected(a, b) {
   return linkedByIndex[a.index + "," + b.index] || linkedByIndex[b.index + "," + a.index] || a.index == b.index;
+}
+
+function dragstart(d) {
+  d3.select(this).classed("fixed", d.fixed = true);
 }
 
 function hasConnections(a) {
@@ -292,8 +298,8 @@ function setFocus(d) {
       tooltip.transition()		
           .duration(200)		
           .style("opacity", .9);		
-      tooltip.style("left", (d3.event.pageX + 150) + "px")		
-          .style("top", (d3.event.pageY - 120) + "px");  
+      tooltip.style("left", (d3.event.pageX + 20) + "px")		
+          .style("top", (d3.event.pageY - 100) + "px");  
     }
   }
 }
@@ -320,10 +326,20 @@ function setHighlight(d) {
 }
 
 function resize() {
+          //   let w = svg.clientWidth;
+          //   let h = svg.clientHeight;
+          //   let divW = g.clientWidth;
+          //   let divH = g.clientHeight;
+
+          //   this.d3Container.nativeElement.firstChild.style.top = (h/2)-(divH/2)+"px";
+          //   this.d3Container.nativeElement.firstChild.style.left = (w/2)-(divW/2)+"px";
   var width = window.innerWidth, height = window.innerHeight;
   svg.attr("width", width).attr("height", height);
   
-  force.size([force.size()[0]+(width-w)/zoom.scale(),force.size()[1]+(height-h)/zoom.scale()]).resume();
+  force.size([
+    force.size()[0]+(width-w)/zoom.scale(),
+    force.size()[1]+(height-h)/zoom.scale()]
+  ).resume();
   w = width;
   h = height;
 }

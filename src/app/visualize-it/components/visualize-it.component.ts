@@ -55,17 +55,38 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
   d3Container;
 
   constructor(private el: ElementRef){
-
+    document.addEventListener("webkitfullscreenchange", (event) => {
+      if(!window.screenTop && !window.screenY) {
+        this.expand(false);
+      }
+    });
+    document.addEventListener("mozfullscreenchange", (event) => {
+      const win: any = window;
+      const isFullScreen = win.fullScreen ||
+                          (win.innerWidth == screen.width && win.innerHeight == screen.height)
+      if(!isFullScreen) {
+        this.expand(false);
+      }
+    });
+    document.addEventListener("MSFullscreenChange", (event) => {
+      const win: any = window;
+      const isFullScreen = win.fullScreen ||
+                          (win.innerWidth == screen.width && win.innerHeight == screen.height)
+      if(!isFullScreen) {
+        this.expand(false);
+      }
+    });
   }
 
   private triggerEvaluation(points) {
     if (points.length) {
-      this.d3Container.nativeElement.innerHTML = "";
       const indexOf = {};
+      const errors = [];
       const dataSet = {
         links:[],
         nodes: []
       };
+      this.d3Container.nativeElement.innerHTML = "";
       points.map( (node,index) => indexOf[node.id] = index);
       points.map( (node, i) => {
         dataSet.nodes.push({
@@ -77,26 +98,43 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
         });
         if(node.sources) {
           node.sources.map( (id) => {
-            dataSet.links.push({source: indexOf[id], target: i});
+            const item = indexOf[id];
+            if (item != undefined) {
+              dataSet.links.push({source: item, target: i});
+            } else {
+              errors.push("Missing source node '" + id + "' for node '" + node.id + "'.");
+            }
           })
         }
         if(node.destinations) {
           node.destinations.map( (id) => {
-            dataSet.links.push({source: i, target: indexOf[id]});
+            const item = indexOf[id];
+            if (item != undefined) {
+              dataSet.links.push({source: i, target: item});
+            } else {
+              errors.push("Missing destination node '" + id + "' for node '" + node.id + "'.");
+            }
           })
         }
-      })
-      window['initiateD3'](
-        window.innerWidth, 
-        window.innerHeight, 
-        dataSet,
-        this.typeMapping, 
-        this.showTypeOnHover, 
-        this.showDirections,
-        this.enableTooltip,
-        "#d3-container");
+      });
+
+      if (errors.length) {
+        this.d3Container.nativeElement.innerHTML = "<div class='danger'>"+errors.join("<br/>")+"</div>";
+      } else {
+        const offset = {x: this.el.nativeElement.offsetLeft, y: this.el.nativeElement.offsetTop};
+        window['initiateD3'](
+          window.innerWidth, 
+          window.innerHeight,
+          offset, 
+          dataSet,
+          this.typeMapping, 
+          this.showTypeOnHover, 
+          this.showDirections,
+          this.enableTooltip,
+          "#d3-container");
+      }
     } else {
-      this.d3Container.nativeElement.innerHTML = "";
+      this.d3Container.nativeElement.innerHTML = "<div class='danger'>Missing data.</div>";
     }
   }
 
@@ -135,8 +173,6 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
   }
 
   expand(flag) {
-    this.expanded = flag;
-
     const doc: any = document;
 
     if (flag) {
@@ -151,6 +187,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
         element.msRequestFullscreen();
       }
       this.el.nativeElement.classList.add("expanded-container");
+      this.expanded = true;
     } else {
       if(doc.exitFullscreen) {
         doc.exitFullscreen();
@@ -160,6 +197,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
         doc.webkitExitFullscreen();
       }
       this.el.nativeElement.classList.remove("expanded-container");
+      this.expanded = false;
     }
   }
 

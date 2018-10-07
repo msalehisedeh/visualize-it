@@ -1,6 +1,6 @@
 :host {
   position: relative;
-  display: inline-block;
+  display: block;
 
   &.expanded-container {
     position: inherit !important;
@@ -80,12 +80,19 @@
   
   #d3-container {
     border: 1px solid #633;
-    padding: 0 5px;
     box-sizing: border-box;
     border-radius: 5px;
     background-color: #fefefe;
     margin: 5px;
     overflow: hidden;
+
+    ::ng-deep .danger {
+      background-color: #a80505;
+      color: #fff;
+      padding: 10px;
+      display: table;
+      width: 100%
+    }  
   }
 
   ::ng-deep path.link {

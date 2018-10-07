@@ -1,11 +1,11 @@
 
 <div class="legends" *ngIf="enableLegends">
-    <a (click)="showLegend = !showLegend;showHelp = false" title="show Legend"><span class="legend">&#9826;</span></a>
+    <a tabindex="0" (click)="showLegend = !showLegend;showHelp = false" title="show Legend"><span class="legend">&#9826;</span></a>
     
-    <a *ngIf="!expanded" (click)="expand(true)" title="show in full screen"><span class="expand">&#9859;</span></a>
-    <a *ngIf="expanded" (click)="expand(false)" title="show in normal screen"><span class="expand">&#9860;</span></a>
+    <a *ngIf="!expanded" tabindex="0" (click)="expand(true)" title="show in full screen"><span class="expand">&#9859;</span></a>
+    <a *ngIf="expanded" tabindex="0" (click)="expand(false)" title="show in normal screen"><span class="expand">&#9860;</span></a>
     
-    <a (click)="showLegend = false;showHelp = !showHelp" title="show help"><span class="help">?</span></a>
+    <a tabindex="0" (click)="showLegend = false;showHelp = !showHelp" title="show help"><span class="help">?</span></a>
     <fieldset class="info" *ngIf="showLegend">
         <legend>Definitions</legend>
         <b>Link types:</b><br/>
@@ -49,6 +49,7 @@
 </div>
 
 <div class="d3-container" 
+    tabindex="0"
     [style.width]="width"
     [style.height]="height"
     id="d3-container" #d3Container></div>

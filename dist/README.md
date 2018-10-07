@@ -8,6 +8,12 @@ This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The in
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
 
+## Version 1.3.4
+* Added ability to lock nodes after dragging.
+* On Initial time, cetering the view.
+* Added ability to warn if any part of the network do not have a matching node.
+* Fixed escaping view problem when user clicks on escape key.
+
 ## Version 1.3.3
 Added ability to show the graph in full screen mode.
 
@@ -21,7 +27,8 @@ Fixed a logic on displaying data when request is sent for the second time.
 Added Ability to display details of a node in tool-tip.
 
 ## Version 1.2.3
-Added Arrows directionality on links. Updated code to allow you toggle displaying of arrows and toggle displaying of node categories with node names.
+* Added Arrows directionality on links. 
+* Updated code to allow you toggle displaying of arrows and toggle displaying of node categories with node names.
 
 ## Version 1.2.2
 Legend information ended up displaying in single line after compilation and uploading to npm. fixed the issue.
