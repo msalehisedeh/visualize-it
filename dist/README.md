@@ -8,6 +8,11 @@ This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The in
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
 
+## Version 1.3.5
+* Added ability to stop/resume animation.
+* Added indicator of zoom level.
+* Added ability show node size or normalize node size on zoom.
+
 ## Version 1.3.4
 * Added ability to lock nodes after dragging.
 * On Initial time, cetering the view.

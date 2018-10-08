@@ -188,6 +188,9 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
       }
       this.el.nativeElement.classList.add("expanded-container");
       this.expanded = true;
+      if (window["centerVisibility"]) {
+        window["centerVisibility"](0, 0);
+      }
     } else {
       if(doc.exitFullscreen) {
         doc.exitFullscreen();
@@ -198,6 +201,9 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
       }
       this.el.nativeElement.classList.remove("expanded-container");
       this.expanded = false;
+      if (window["centerVisibility"]) {
+        window["centerVisibility"](this.el.nativeElement.offsetLeft, this.el.nativeElement.offsetTop);
+      }
     }
   }
 

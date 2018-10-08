@@ -164,6 +164,9 @@ class VisualizeItComponent {
             }
             this.el.nativeElement.classList.add("expanded-container");
             this.expanded = true;
+            if (window["centerVisibility"]) {
+                window["centerVisibility"](0, 0);
+            }
         }
         else {
             if (doc.exitFullscreen) {
@@ -177,6 +180,9 @@ class VisualizeItComponent {
             }
             this.el.nativeElement.classList.remove("expanded-container");
             this.expanded = false;
+            if (window["centerVisibility"]) {
+                window["centerVisibility"](this.el.nativeElement.offsetLeft, this.el.nativeElement.offsetTop);
+            }
         }
     }
     /**
@@ -217,10 +223,12 @@ VisualizeItComponent.decorators = [
         <b>Double-click to center node and zoom in.</b><br/>
         <b>Hold SHIFT and Double-click to zoom out.</b><br/><br/>
         <b>Filter nodes by:</b><br/>
+        <strong>"." :</strong> Stop/resume animation<br/>
         <strong>"!" :</strong> Show/hide node category on hover<br/>
         <strong>"#" :</strong> Show/hide link arrow direction<br/>
         <strong>"@" :</strong> Show/hide node names or node category<br/>
         <strong>"T" :</strong> Enable/disable displaying of Tooltip<br/>
+        <strong>"Z" :</strong> Do/Don't Normalize node sizes on zoom<br/>
         <span *ngIf="typeMapping['circle']"><strong>"C" :</strong> Show/hide all circle ( {{typeMapping['circle']}} ) nodes<br/></span>
         <span *ngIf="typeMapping['cross']"><strong>"X" :</strong> Show/hide all cross ( {{typeMapping['cross']}} ) nodes<br/></span>
         <span *ngIf="typeMapping['diamond']"><strong>"R" :</strong> Show/hide all diamond ( {{typeMapping['diamond']}} ) nodes<br/></span>
@@ -270,13 +278,18 @@ VisualizeItComponent.decorators = [
         width:13px;
         float:left;
         height:25px;
-        line-height:25px; }
+        line-height:25px;
+        border:1px solid #3a3939; }
       :host .legends a .expand{
-        text-align:center; }
+        text-align:center;
+        border-left:0;
+        border-right:0; }
       :host .legends a .legend{
-        border-radius:15px 0 0 15px; }
+        border-radius:5px 0 0 5px;
+        border-right:0; }
       :host .legends a .help{
-        border-radius:0 15px 15px 0; }
+        border-radius:0 5px 5px 0;
+        border-left:0; }
       :host .legends a:hover{
         color:#fff; }
         :host .legends a:hover span{
