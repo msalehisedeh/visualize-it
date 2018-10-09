@@ -146,8 +146,19 @@ var VisualizeItComponent = (function () {
                 this.d3Container.nativeElement.innerHTML = "<div class='danger'>" + errors_1.join("<br/>") + "</div>";
             }
             else {
-                var /** @type {?} */ offset = { x: this.el.nativeElement.offsetLeft, y: this.el.nativeElement.offsetTop };
-                window['initiateD3'](window.innerWidth, window.innerHeight, offset, dataSet_1, this.typeMapping, this.showTypeOnHover, this.showDirections, this.enableTooltip, "#d3-container");
+                var /** @type {?} */ config = {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    offset: { x: this.el.nativeElement.offsetLeft, y: this.el.nativeElement.offsetTop },
+                    data: dataSet_1,
+                    mapping: this.typeMapping,
+                    showTypeOnHover: this.showTypeOnHover,
+                    showDirections: this.showDirections,
+                    enableTooltip: this.enableTooltip,
+                    showCurvedConnections: this.showCurvedConnections,
+                    targetDiv: "#d3-container"
+                };
+                window['initiateD3'](config);
             }
         }
         else {
@@ -273,6 +284,7 @@ VisualizeItComponent.ctorParameters = function () { return [
     { type: core.ElementRef, },
 ]; };
 VisualizeItComponent.propDecorators = {
+    "showCurvedConnections": [{ type: core.Input, args: ["showCurvedConnections",] },],
     "enableTooltip": [{ type: core.Input, args: ["enableTooltip",] },],
     "enableLegends": [{ type: core.Input, args: ["enableLegends",] },],
     "showTypeOnHover": [{ type: core.Input, args: ["showTypeOnHover",] },],

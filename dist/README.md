@@ -8,6 +8,9 @@ This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The in
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
 
+## Version 1.3.6
+* Added option to display connections between nodes in curves or streight lines.
+
 ## Version 1.3.5
 * Added ability to stop/resume animation.
 * Added indicator of zoom level.
@@ -15,7 +18,7 @@ This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The in
 
 ## Version 1.3.4
 * Added ability to lock nodes after dragging.
-* On Initial time, cetering the view.
+* On Initial time, centring the view.
 * Added ability to warn if any part of the network do not have a matching node.
 * Fixed escaping view problem when user clicks on escape key.
 
@@ -64,7 +67,8 @@ EXPORTS:
 |showTypeOnHover           |Optional  |Show the node type when hovering over it. Default is false. |
 |enableLegends             |Optional  |allow user see the help section.                            |
 |showDirections            |Optional  |Display arrow directions on links.                          |
-|enableTooltip             |Optional  |Display tool-tip on focus key down.                          |
+|enableTooltip             |Optional  |Display tool-tip on focus key down.                         |
+|showCurvedConnections     |Optional  |Display node connections in curves or streight lines. Default is false pertaining to streight lines.|
 
 ## Data Attributes Structure
 The JSON objects list passed in as data, should have the following attributes:
@@ -73,7 +77,7 @@ The JSON objects list passed in as data, should have the following attributes:
 |--------------------------|----------|----------------------------------------------------------|
 |id                        |Required  |ID of the object.                                         |
 |name                      |Required  |Name to be displayed.                                     |
-|group                     |Required  |Group used to associate a color to all objects in the same group. |
+|group                     |Required  |Group used to associate a colour to all objects in the same group. |
 |size                      |Required  |Size of the displayed node.                               |
 |type                      |Optional  |Type of the node determining its shape if it is a square, circle, diamonds, cross, triangle-up, or triangle-down. |
 |sources                   |Optional  |List of IDs of other objects as a source to this one.     |
@@ -102,8 +106,10 @@ in your html:
   [data]="data.names" 
   [typeMapping]="data.roles" 
   enableLegends="true"
+  enableTooltip="true"
   showTypeOnHover="true"
   showDirections="true"
+  showCurvedConnections="true"
   width="calc(100vw - 44px)" 
   height="400px"></visualize-it>
 
@@ -114,11 +120,11 @@ Where typeMapping is a mapping of shapes to explain them. A sample data could be
       "diamond": "Student"
     },
     names: [
-      {"id":"0", "size": 60, "group": 0, data: {age: 22, sex: "female", score: 5657567}, "name": "Andria", type:"circle", sources:["1","2"]},
-      {"id":"1", "size": 10, "group": 2, data: {age: 32, sex: "female", score: 5756756}, "name": "Joshephine", type:"circle", sources:["3","4"]},
-      {"id":"2", "size": 60, "group": 4, data: {age: 54, sex: "male", score: 2343423}, "name": "Alfred", type:"diamond", sources:["4"]},
-      {"id":"3", "size": 10, "group": 6, data: {age: 43, sex: "female", score: 8675755}, "name": "Maya", type:"diamond"]},
-      {"id":"4", "size": 60, "group": 8, data: {age: 33, sex: "male", score: 9678678}, "name": "Ali", type:"diamond"}
+      {"id":"0", "size": 60, "group": 0, data: {age: 22, gender: "female", score: 5657567}, "name": "Andrea", type:"circle", sources:["1","2"]},
+      {"id":"1", "size": 10, "group": 2, data: {age: 32, gender: "female", score: 5756756}, "name": "Josephine", type:"circle", sources:["3","4"]},
+      {"id":"2", "size": 60, "group": 4, data: {age: 54, gender: "male", score: 2343423}, "name": "Alfred", type:"diamond", sources:["4"]},
+      {"id":"3", "size": 10, "group": 6, data: {age: 43, gender: "female", score: 8675755}, "name": "Maya", type:"diamond"]},
+      {"id":"4", "size": 60, "group": 8, data: {age: 33, gender: "male", score: 9678678}, "name": "Ali", type:"diamond"}
     ]
 }
 ```

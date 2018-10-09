@@ -24,6 +24,9 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
   showHelp = false;
   expanded = false;
   
+  @Input("showCurvedConnections")
+  showCurvedConnections: string;
+
   @Input("enableTooltip")
   enableTooltip: boolean;
 
@@ -121,17 +124,19 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
       if (errors.length) {
         this.d3Container.nativeElement.innerHTML = "<div class='danger'>"+errors.join("<br/>")+"</div>";
       } else {
-        const offset = {x: this.el.nativeElement.offsetLeft, y: this.el.nativeElement.offsetTop};
-        window['initiateD3'](
-          window.innerWidth, 
-          window.innerHeight,
-          offset, 
-          dataSet,
-          this.typeMapping, 
-          this.showTypeOnHover, 
-          this.showDirections,
-          this.enableTooltip,
-          "#d3-container");
+        const config = {
+          width: window.innerWidth, 
+          height: window.innerHeight,
+          offset: {x: this.el.nativeElement.offsetLeft, y: this.el.nativeElement.offsetTop}, 
+          data: dataSet,
+          mapping: this.typeMapping, 
+          showTypeOnHover: this.showTypeOnHover, 
+          showDirections: this.showDirections,
+          enableTooltip: this.enableTooltip,
+          showCurvedConnections: this.showCurvedConnections,
+          targetDiv: "#d3-container"
+        };
+        window['initiateD3'](config);
       }
     } else {
       this.d3Container.nativeElement.innerHTML = "<div class='danger'>Missing data.</div>";

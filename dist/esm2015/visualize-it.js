@@ -88,8 +88,19 @@ class VisualizeItComponent {
                 this.d3Container.nativeElement.innerHTML = "<div class='danger'>" + errors.join("<br/>") + "</div>";
             }
             else {
-                const /** @type {?} */ offset = { x: this.el.nativeElement.offsetLeft, y: this.el.nativeElement.offsetTop };
-                window['initiateD3'](window.innerWidth, window.innerHeight, offset, dataSet, this.typeMapping, this.showTypeOnHover, this.showDirections, this.enableTooltip, "#d3-container");
+                const /** @type {?} */ config = {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    offset: { x: this.el.nativeElement.offsetLeft, y: this.el.nativeElement.offsetTop },
+                    data: dataSet,
+                    mapping: this.typeMapping,
+                    showTypeOnHover: this.showTypeOnHover,
+                    showDirections: this.showDirections,
+                    enableTooltip: this.enableTooltip,
+                    showCurvedConnections: this.showCurvedConnections,
+                    targetDiv: "#d3-container"
+                };
+                window['initiateD3'](config);
             }
         }
         else {
@@ -358,6 +369,7 @@ VisualizeItComponent.ctorParameters = () => [
     { type: ElementRef, },
 ];
 VisualizeItComponent.propDecorators = {
+    "showCurvedConnections": [{ type: Input, args: ["showCurvedConnections",] },],
     "enableTooltip": [{ type: Input, args: ["enableTooltip",] },],
     "enableLegends": [{ type: Input, args: ["enableLegends",] },],
     "showTypeOnHover": [{ type: Input, args: ["showTypeOnHover",] },],
