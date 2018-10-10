@@ -18,27 +18,29 @@ var VisualizeItComponent = (function () {
         this.expanded = false;
         this.typeMapping = {};
         this.onVisualization = new EventEmitter();
-        document.addEventListener("webkitfullscreenchange", function (event) {
-            if (!window.screenTop && !window.screenY) {
-                _this.expand(false);
-            }
-        });
-        document.addEventListener("mozfullscreenchange", function (event) {
-            var /** @type {?} */ win = window;
-            var /** @type {?} */ isFullScreen = win.fullScreen ||
-                (win.innerWidth == screen.width && win.innerHeight == screen.height);
-            if (!isFullScreen) {
-                _this.expand(false);
-            }
-        });
-        document.addEventListener("MSFullscreenChange", function (event) {
-            var /** @type {?} */ win = window;
-            var /** @type {?} */ isFullScreen = win.fullScreen ||
-                (win.innerWidth == screen.width && win.innerHeight == screen.height);
-            if (!isFullScreen) {
-                _this.expand(false);
-            }
-        });
+        if (navigator.platform.toUpperCase().indexOf('MAC') < 0) {
+            document.addEventListener("webkitfullscreenchange", function (event) {
+                if (!window.screenTop && !window.screenY) {
+                    _this.expand(false);
+                }
+            });
+            document.addEventListener("mozfullscreenchange", function (event) {
+                var /** @type {?} */ win = window;
+                var /** @type {?} */ isFullScreen = win.fullScreen ||
+                    (win.innerWidth == screen.width && win.innerHeight == screen.height);
+                if (!isFullScreen) {
+                    _this.expand(false);
+                }
+            });
+            document.addEventListener("MSFullscreenChange", function (event) {
+                var /** @type {?} */ win = window;
+                var /** @type {?} */ isFullScreen = win.fullScreen ||
+                    (win.innerWidth == screen.width && win.innerHeight == screen.height);
+                if (!isFullScreen) {
+                    _this.expand(false);
+                }
+            });
+        }
     }
     /**
      * @param {?} points
@@ -60,6 +62,7 @@ var VisualizeItComponent = (function () {
                     group: node.group ? node.group : 0,
                     type: node.type && node.type.length ? node.type : "circle",
                     name: node.name,
+                    image: node.image,
                     data: node.data ? node.data : []
                 });
                 if (node.sources) {
@@ -99,6 +102,7 @@ var VisualizeItComponent = (function () {
                     showDirections: this.showDirections,
                     enableTooltip: this.enableTooltip,
                     showCurvedConnections: this.showCurvedConnections,
+                    outlineNodes: this.outlineNodes,
                     targetDiv: "#d3-container"
                 };
                 window['initiateD3'](config);
@@ -229,6 +233,7 @@ VisualizeItComponent.ctorParameters = function () { return [
 VisualizeItComponent.propDecorators = {
     "showCurvedConnections": [{ type: Input, args: ["showCurvedConnections",] },],
     "enableTooltip": [{ type: Input, args: ["enableTooltip",] },],
+    "outlineNodes": [{ type: Input, args: ["outlineNodes",] },],
     "enableLegends": [{ type: Input, args: ["enableLegends",] },],
     "showTypeOnHover": [{ type: Input, args: ["showTypeOnHover",] },],
     "showDirections": [{ type: Input, args: ["showDirections",] },],

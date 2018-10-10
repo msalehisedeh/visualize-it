@@ -8,8 +8,12 @@ This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The in
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
 
+## Version 1.3.7
+* Disabled the event handling of fullscreen expansion on mac os. There is a known problem with webkit on mac os (https://bugs.chromium.org/p/chromium/issues/detail?id=138368) which caused problem with fullscreen/escape event handling.
+
 ## Version 1.3.6
 * Added option to display connections between nodes in curves or streight lines.
+* Added option to outline or fill Nodes.
 
 ## Version 1.3.5
 * Added ability to stop/resume animation.
@@ -68,6 +72,7 @@ EXPORTS:
 |enableLegends             |Optional  |allow user see the help section.                            |
 |showDirections            |Optional  |Display arrow directions on links.                          |
 |enableTooltip             |Optional  |Display tool-tip on focus key down.                         |
+|outlineNodes              |Optional  |Display nodes with color outline or fill color.             |
 |showCurvedConnections     |Optional  |Display node connections in curves or streight lines. Default is false pertaining to streight lines.|
 
 ## Data Attributes Structure
@@ -82,6 +87,7 @@ The JSON objects list passed in as data, should have the following attributes:
 |type                      |Optional  |Type of the node determining its shape if it is a square, circle, diamonds, cross, triangle-up, or triangle-down. |
 |sources                   |Optional  |List of IDs of other objects as a source to this one.     |
 |destinations              |Optional  |List of IDs of other objects as a destination to this one.|
+|image                     |Optional  |URL of image to be displayed as a node. Currently works best if node is of type circle.|
 
 
 Type mapping will be used in legends section as a tool tip help.
@@ -129,7 +135,8 @@ Where typeMapping is a mapping of shapes to explain them. A sample data could be
 }
 ```
 
-in your `.angular-cli.json` file include the following:
+for projects started with angular 2, 4, or 5 and upgraded to 6.
+In your `.angular-cli.json` file include the following:
 ```javascript
   "apps": [
     {
@@ -138,6 +145,22 @@ in your `.angular-cli.json` file include the following:
       "assets": [
         "assets",
         { "glob": "**/*", "input": "../node_modules/visualize-it/src/assets/", "output": "./assets/" },
+        "favicon.ico"
+      ],
+
+      ....
+
+```
+
+for projects started with angular 6 your `angular.json` file include the following:
+```javascript
+  "architect": [
+    {
+      ....
+
+      "assets": [
+        "assets",
+        { "glob": "**/*", "input": "./node_modules/visualize-it/src/assets/", "output": "./assets/" },
         "favicon.ico"
       ],
 

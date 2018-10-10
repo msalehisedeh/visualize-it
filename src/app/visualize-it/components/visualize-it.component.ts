@@ -26,9 +26,12 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
   
   @Input("showCurvedConnections")
   showCurvedConnections: string;
-
+  
   @Input("enableTooltip")
   enableTooltip: boolean;
+
+  @Input("outlineNodes")
+  outlineNodes: boolean;
 
   @Input("enableLegends")
   enableLegends: boolean;
@@ -58,27 +61,29 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
   d3Container;
 
   constructor(private el: ElementRef){
-    document.addEventListener("webkitfullscreenchange", (event) => {
-      if(!window.screenTop && !window.screenY) {
-        this.expand(false);
-      }
-    });
-    document.addEventListener("mozfullscreenchange", (event) => {
-      const win: any = window;
-      const isFullScreen = win.fullScreen ||
-                          (win.innerWidth == screen.width && win.innerHeight == screen.height)
-      if(!isFullScreen) {
-        this.expand(false);
-      }
-    });
-    document.addEventListener("MSFullscreenChange", (event) => {
-      const win: any = window;
-      const isFullScreen = win.fullScreen ||
-                          (win.innerWidth == screen.width && win.innerHeight == screen.height)
-      if(!isFullScreen) {
-        this.expand(false);
-      }
-    });
+    if (navigator.platform.toUpperCase().indexOf('MAC')<0) {
+      document.addEventListener("webkitfullscreenchange", (event) => {
+        if(!window.screenTop && !window.screenY) {
+          this.expand(false);
+        }
+      });
+      document.addEventListener("mozfullscreenchange", (event) => {
+        const win: any = window;
+        const isFullScreen = win.fullScreen ||
+                            (win.innerWidth == screen.width && win.innerHeight == screen.height)
+        if(!isFullScreen) {
+          this.expand(false);
+        }
+      });
+      document.addEventListener("MSFullscreenChange", (event) => {
+        const win: any = window;
+        const isFullScreen = win.fullScreen ||
+                            (win.innerWidth == screen.width && win.innerHeight == screen.height)
+        if(!isFullScreen) {
+          this.expand(false);
+        }
+      });
+    }
   }
 
   private triggerEvaluation(points) {
@@ -97,6 +102,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
           group: node.group? node.group : 0, 
           type: node.type && node.type.length ? node.type : "circle",
           name: node.name,
+          image: node.image,
           data: node.data ? node.data : []
         });
         if(node.sources) {
@@ -134,6 +140,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
           showDirections: this.showDirections,
           enableTooltip: this.enableTooltip,
           showCurvedConnections: this.showCurvedConnections,
+          outlineNodes: this.outlineNodes,
           targetDiv: "#d3-container"
         };
         window['initiateD3'](config);

@@ -76,10 +76,13 @@ function initiateD3(graphConfiguration) {
   showArrows = graphConfiguration.showDirections;
   enabledNodeTooltip = graphConfiguration.enableTooltip;
   showCurvedLines = graphConfiguration.showCurvedConnections;
+  outline = graphConfiguration.outlineNodes;
 
   color = d3.scale.linear()
   .domain([minColorGroup, (minColorGroup+maxColorGroup)/2, maxColorGroup])
   .range(["lime", "yellow", "red"]);
+
+  toggleFills();
 
   size = d3.scale.pow().exponent(1).domain([1,100]).range([8,24]);
 
@@ -175,6 +178,12 @@ function initiateD3(graphConfiguration) {
     .enter().append("text")
     .attr("dy", ".35em")
   .style("font-size", settingsConfiguration.nominalTextSize + "px")
+  var images = circle.append("svg:image")
+  .attr("xlink:href",  function(d) { return d.image;})
+  .attr("x", function(d) { return - d.size;})
+  .attr("y", function(d) { return - d.size;})
+  .attr("height", function(d) { return d.size*2; })
+  .attr("width", function(d) { return d.size*2; });
 
   if (textCenter){
    text.text(function(d) { 
