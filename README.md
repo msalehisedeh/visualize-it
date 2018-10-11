@@ -8,6 +8,9 @@ This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The in
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
 
+## Version 1.3.9
+Realized under certain situations, you may want to have control over the spaces between nodes. As a result, I made the hard coded values available to you. Now you can define how close you want the nodes to be with respect to each other.
+
 ## Version 1.3.8
 Explanation of node relationship was confusing to myself. As a result, decided to clarify it.
 
@@ -67,15 +70,17 @@ EXPORTS:
 ## Component attributes
 | Component attribute      |status    |Description                                                 |
 |--------------------------|----------|------------------------------------------------------------|
-|width                     |Required  |width of display area.                                      |
-|height                    |Required  |height of display area.                                     |
-|data                      |Required  |data containing node relationship to be displayed           |
-|typeMapping               |Optional  |mapping types to help user using this tool.                 |
+|width                     |Required  |Width of display area.                                      |
+|height                    |Required  |Height of display area.                                     |
+|data                      |Required  |Data containing node relationship to be displayed           |
+|typeMapping               |Optional  |Mapping types to help user using this tool.                 |
 |showTypeOnHover           |Optional  |Show the node type when hovering over it. Default is false. |
-|enableLegends             |Optional  |allow user see the help section.                            |
+|enableLegends             |Optional  |Allow user see the help section.                            |
 |showDirections            |Optional  |Display arrow directions on links.                          |
 |enableTooltip             |Optional  |Display tool-tip on focus key down.                         |
 |outlineNodes              |Optional  |Display nodes with color outline or fill color.             |
+|repealForce               |Optional  |Repeal will define the space between nodes. Default is 300  |
+|fixedDistance             |Optional  |Define the distance between connected nodes. Default is 60  |
 |showCurvedConnections     |Optional  |Display node connections in curves or straight lines. Default is false pertaining to straight lines.|
 
 ## Data Attributes Structure

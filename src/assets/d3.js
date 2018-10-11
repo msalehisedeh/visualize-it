@@ -57,7 +57,10 @@ function toggleFills() {
   if (outline) {
     tocolor = "stroke"
     towhite = "fill"
-  }  
+  }else {
+    tocolor = "fill";
+    towhite = "stroke";
+  }
 }
 toggleFills();
 
@@ -87,8 +90,8 @@ function initiateD3(graphConfiguration) {
   size = d3.scale.pow().exponent(1).domain([1,100]).range([8,24]);
 
   force = d3.layout.force()
-  .linkDistance(60)
-  .charge(-300)
+  .linkDistance(graphConfiguration.fixedDistance)
+  .charge(graphConfiguration.charge)
   .size([w,h]);
 
   drag = force.drag().on("dragstart", dragstart);
@@ -178,7 +181,7 @@ function initiateD3(graphConfiguration) {
     .enter().append("text")
     .attr("dy", ".35em")
   .style("font-size", settingsConfiguration.nominalTextSize + "px")
-  var images = circle.append("svg:image")
+  var images = node.append("svg:image")
   .attr("xlink:href",  function(d) { return d.image;})
   .attr("x", function(d) { return - d.size;})
   .attr("y", function(d) { return - d.size;})

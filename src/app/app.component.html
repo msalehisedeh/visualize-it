@@ -37,15 +37,37 @@
   Submit
 </button>
 </div>
-<visualize-it 
+
+<fieldset>
+  <legend>Settings</legend>
+  <label for="distance">
+    fixed Distance: <input type="text" id="distance" style="width: 30px" [value]="fixedDistance" (keyup)="distance($event)" />
+  </label>
+  <label for="repeal">
+    Repeal force: <input type="text" id="repeal" style="width: 30px" [value]="repealForce" (keyup)="repeal($event)" />
+  </label>
+  <label for="outlineNodes">
+    <input id="outlineNodes" type="checkbox" [checked]="outlineNodes" (click)="outline($event)" />
+    Outline nodes
+  </label>
+  <label for="showCurvedConnections">
+    <input id="showCurvedConnections" type="checkbox" [checked]="showCurvedConnections == 'true'" (click)="curveIt($event)" />
+    Show Curved Connections
+  </label>
+
+</fieldset>
+<visualize-it *ngIf="shouldVisualizeIt"
   [style.display]="displayEntry ? 'none':'block'" 
   enableLegends="true"
   width="calc(100vw - 44px)" 
   height="400px"
   showTypeOnHover="true"
-  showCurvedConnections="true"
+  [showCurvedConnections]="showCurvedConnections"
   showDirections="true"
   enableTooltip="true"
+  [repealForce]="repealForce"
+  [fixedDistance]="fixedDistance"
+  [outlineNodes]="outlineNodes"
   [typeMapping]="myDataSet.roles"
   [data]="myDataSet.names"></visualize-it>
 

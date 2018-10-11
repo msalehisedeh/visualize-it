@@ -18,6 +18,12 @@ export class AppComponent {
   myDataSet = {};
   resultingTree: any;
 
+  fixedDistance = 60;
+  repealForce= 300;
+
+  outlineNodes = false;
+  shouldVisualizeIt=true;
+  showCurvedConnections = "true";
   displayEntry = false;
   pointsOfEntry = undefined;
   pointOfEntry = undefined;
@@ -27,6 +33,35 @@ export class AppComponent {
     this.service.usersList().subscribe( (results) => {
       this.myDataSet = results;
     })
+  }
+
+  distance(event) {
+    const code = event.which;
+
+    this.fixedDistance = event.target.value;
+    if (code === 13) {
+      this.shouldVisualizeIt = false;
+      setTimeout(()=>this.shouldVisualizeIt=true, 6)
+    }
+  }
+  repeal(event) {
+    const code = event.which;
+
+    this.repealForce = event.target.value;
+    if (code === 13) {
+      this.shouldVisualizeIt = false;
+      setTimeout(()=>this.shouldVisualizeIt=true, 6)
+    }
+  }
+  curveIt(event) {
+    this.shouldVisualizeIt = false;
+    this.showCurvedConnections = event.target.checked ? "true":"false";
+    setTimeout(()=>this.shouldVisualizeIt=true, 6)
+  }
+  outline(event){
+    this.shouldVisualizeIt = false;
+    this.outlineNodes = event.target.checked;
+    setTimeout(()=>this.shouldVisualizeIt=true, 6)
   }
 
   addDataEntry(entryName , entryJson) {

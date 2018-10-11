@@ -30,6 +30,12 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
   @Input("enableTooltip")
   enableTooltip: boolean;
 
+  @Input("repealForce")
+  repealForce = 300;
+  
+  @Input("fixedDistance")
+  fixedDistance = 60;
+
   @Input("outlineNodes")
   outlineNodes: boolean;
 
@@ -141,6 +147,8 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
           enableTooltip: this.enableTooltip,
           showCurvedConnections: this.showCurvedConnections,
           outlineNodes: this.outlineNodes,
+          charge: -1 * this.repealForce,
+          fixedDistance: this.fixedDistance,
           targetDiv: "#d3-container"
         };
         window['initiateD3'](config);

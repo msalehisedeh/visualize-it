@@ -16,6 +16,8 @@ var VisualizeItComponent = (function () {
         this.showLegend = false;
         this.showHelp = false;
         this.expanded = false;
+        this.repealForce = 300;
+        this.fixedDistance = 60;
         this.typeMapping = {};
         this.onVisualization = new EventEmitter();
         if (navigator.platform.toUpperCase().indexOf('MAC') < 0) {
@@ -103,6 +105,8 @@ var VisualizeItComponent = (function () {
                     enableTooltip: this.enableTooltip,
                     showCurvedConnections: this.showCurvedConnections,
                     outlineNodes: this.outlineNodes,
+                    charge: -1 * this.repealForce,
+                    fixedDistance: this.fixedDistance,
                     targetDiv: "#d3-container"
                 };
                 window['initiateD3'](config);
@@ -233,6 +237,8 @@ VisualizeItComponent.ctorParameters = function () { return [
 VisualizeItComponent.propDecorators = {
     "showCurvedConnections": [{ type: Input, args: ["showCurvedConnections",] },],
     "enableTooltip": [{ type: Input, args: ["enableTooltip",] },],
+    "repealForce": [{ type: Input, args: ["repealForce",] },],
+    "fixedDistance": [{ type: Input, args: ["fixedDistance",] },],
     "outlineNodes": [{ type: Input, args: ["outlineNodes",] },],
     "enableLegends": [{ type: Input, args: ["enableLegends",] },],
     "showTypeOnHover": [{ type: Input, args: ["showTypeOnHover",] },],
