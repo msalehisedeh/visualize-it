@@ -8,11 +8,14 @@ This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The in
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
 
+## Version 1.3.8
+Explanation of node relationship was confusing to myself. As a result, decided to clarify it.
+
 ## Version 1.3.7
-* Disabled the event handling of fullscreen expansion on mac os. There is a known problem with webkit on mac os (https://bugs.chromium.org/p/chromium/issues/detail?id=138368) which caused problem with fullscreen/escape event handling.
+* Disabled the event handling of full screen expansion on mac OS. There is a known problem with webkit on mac OS (https://bugs.chromium.org/p/chromium/issues/detail?id=138368) which caused problem with full-screen/escape event handling.
 
 ## Version 1.3.6
-* Added option to display connections between nodes in curves or streight lines.
+* Added option to display connections between nodes in curves or straight lines.
 * Added option to outline or fill Nodes.
 
 ## Version 1.3.5
@@ -73,7 +76,7 @@ EXPORTS:
 |showDirections            |Optional  |Display arrow directions on links.                          |
 |enableTooltip             |Optional  |Display tool-tip on focus key down.                         |
 |outlineNodes              |Optional  |Display nodes with color outline or fill color.             |
-|showCurvedConnections     |Optional  |Display node connections in curves or streight lines. Default is false pertaining to streight lines.|
+|showCurvedConnections     |Optional  |Display node connections in curves or straight lines. Default is false pertaining to straight lines.|
 
 ## Data Attributes Structure
 The JSON objects list passed in as data, should have the following attributes:
@@ -85,8 +88,8 @@ The JSON objects list passed in as data, should have the following attributes:
 |group                     |Required  |Group used to associate a colour to all objects in the same group. |
 |size                      |Required  |Size of the displayed node.                               |
 |type                      |Optional  |Type of the node determining its shape if it is a square, circle, diamonds, cross, triangle-up, or triangle-down. |
-|sources                   |Optional  |List of IDs of other objects as a source to this one.     |
-|destinations              |Optional  |List of IDs of other objects as a destination to this one.|
+|sources                   |Optional  |List of IDs of other objects as originator of a node.     |
+|destinations              |Optional  |List of IDs of other objects as a descendant of a node.   |
 |image                     |Optional  |URL of image to be displayed as a node. Currently works best if node is of type circle.|
 
 

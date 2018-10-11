@@ -8,10 +8,10 @@
     <a tabindex="0" (click)="showLegend = false;showHelp = !showHelp" title="show help"><span class="help">?</span></a>
     <fieldset class="info" *ngIf="showLegend">
         <legend>Definitions</legend>
-        <b>Link types:</b><br/>
-        <strong>Dotted line:</strong> Destination of a Node<br/>
-        <strong>Line:</strong> Source of a Node<br/>
-        <span *ngIf="showDirections"><strong>Line Arrow:</strong> Pointing toward the destination.<br/></span>
+        <b>Relationship types:</b><br/>
+        <strong>Dotted line:</strong> Descendancy relationship (example: Children of)<br/>
+        <strong>Solid Line:</strong> Origination relationship (example: Parents of)<br/>
+        <span *ngIf="showDirections"><strong>Arrow on a line:</strong> Pointing toward the recipient of relationship.<br/></span>
 
         <br/><b>Node types:</b><br/>
         <span *ngIf="typeMapping['circle']"><strong>Circle</strong> - {{typeMapping['circle']}}<br/></span>
