@@ -46,6 +46,10 @@
   <label for="repeal">
     Repeal force: <input type="text" id="repeal" style="width: 30px" [value]="repealForce" (keyup)="repeal($event)" />
   </label>
+  <label for="gradientsEnabled">
+    <input id="gradientsEnabled" type="checkbox" [checked]="gradientsEnabled" (click)="gradients($event)" />
+    Enable Gradients
+  </label>
   <label for="outlineNodes">
     <input id="outlineNodes" type="checkbox" [checked]="outlineNodes" (click)="outline($event)" />
     Outline nodes
@@ -54,7 +58,7 @@
     <input id="showCurvedConnections" type="checkbox" [checked]="showCurvedConnections == 'true'" (click)="curveIt($event)" />
     Show Curved Connections
   </label>
-
+  
 </fieldset>
 <visualize-it *ngIf="shouldVisualizeIt"
   [style.display]="displayEntry ? 'none':'block'" 
@@ -62,6 +66,7 @@
   width="calc(100vw - 44px)" 
   height="400px"
   showTypeOnHover="true"
+  [gradientsEnabled]="gradientsEnabled"
   [showCurvedConnections]="showCurvedConnections"
   showDirections="true"
   enableTooltip="true"

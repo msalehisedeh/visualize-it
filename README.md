@@ -8,6 +8,9 @@ This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The in
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
 
+## Version 1.4.0
+Added ability to display nodes with gradient colors to make it look a bit three dimentional and more visually attractive.
+
 ## Version 1.3.9
 Realized under certain situations, you may want to have control over the spaces between nodes. As a result, I made the hard coded values available to you. Now you can define how close you want the nodes to be with respect to each other.
 
@@ -75,6 +78,7 @@ EXPORTS:
 |data                      |Required  |Data containing node relationship to be displayed           |
 |typeMapping               |Optional  |Mapping types to help user using this tool.                 |
 |showTypeOnHover           |Optional  |Show the node type when hovering over it. Default is false. |
+|gradientsEnabled          |Optional  |Display nodes with gradient color. Default is true.         |
 |enableLegends             |Optional  |Allow user see the help section.                            |
 |showDirections            |Optional  |Display arrow directions on links.                          |
 |enableTooltip             |Optional  |Display tool-tip on focus key down.                         |
@@ -82,6 +86,7 @@ EXPORTS:
 |repealForce               |Optional  |Repeal will define the space between nodes. Default is 300  |
 |fixedDistance             |Optional  |Define the distance between connected nodes. Default is 60  |
 |showCurvedConnections     |Optional  |Display node connections in curves or straight lines. Default is false pertaining to straight lines.|
+
 
 ## Data Attributes Structure
 The JSON objects list passed in as data, should have the following attributes:
@@ -121,6 +126,7 @@ in your html:
   [typeMapping]="data.roles" 
   enableLegends="true"
   enableTooltip="true"
+  gradientsEnabled="false"
   showTypeOnHover="true"
   showDirections="true"
   showCurvedConnections="true"

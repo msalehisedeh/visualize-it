@@ -73,6 +73,7 @@ var VisualizeItComponent = (function () {
         this.showLegend = false;
         this.showHelp = false;
         this.expanded = false;
+        this.gradientsEnabled = true;
         this.repealForce = 300;
         this.fixedDistance = 60;
         this.typeMapping = {};
@@ -164,6 +165,7 @@ var VisualizeItComponent = (function () {
                     outlineNodes: this.outlineNodes,
                     charge: -1 * this.repealForce,
                     fixedDistance: this.fixedDistance,
+                    gradientsEnabled: this.gradientsEnabled,
                     targetDiv: "#d3-container"
                 };
                 window['initiateD3'](config);
@@ -294,6 +296,7 @@ VisualizeItComponent.ctorParameters = function () { return [
 VisualizeItComponent.propDecorators = {
     "showCurvedConnections": [{ type: core.Input, args: ["showCurvedConnections",] },],
     "enableTooltip": [{ type: core.Input, args: ["enableTooltip",] },],
+    "gradientsEnabled": [{ type: core.Input, args: ["gradientsEnabled",] },],
     "repealForce": [{ type: core.Input, args: ["repealForce",] },],
     "fixedDistance": [{ type: core.Input, args: ["fixedDistance",] },],
     "outlineNodes": [{ type: core.Input, args: ["outlineNodes",] },],

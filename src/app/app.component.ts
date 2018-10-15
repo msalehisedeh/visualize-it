@@ -23,6 +23,7 @@ export class AppComponent {
 
   outlineNodes = false;
   shouldVisualizeIt=true;
+  gradientsEnabled=true;
   showCurvedConnections = "true";
   displayEntry = false;
   pointsOfEntry = undefined;
@@ -56,6 +57,11 @@ export class AppComponent {
   curveIt(event) {
     this.shouldVisualizeIt = false;
     this.showCurvedConnections = event.target.checked ? "true":"false";
+    setTimeout(()=>this.shouldVisualizeIt=true, 6)
+  }
+  gradients(event) {
+    this.shouldVisualizeIt = false;
+    this.gradientsEnabled = event.target.checked;
     setTimeout(()=>this.shouldVisualizeIt=true, 6)
   }
   outline(event){
