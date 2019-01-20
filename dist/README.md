@@ -5,64 +5,10 @@ Have you wondered how long will it take to do it? Well... wonder no more and add
 
 This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The intention here is to make it easier to use and make it accessible to angular application.
 
+**NOTE:** Starting with version 1.5.1 all previous versions are deprecated and you need to import this library through @sedeh/visualize-it. Future bug fixes / enhancements will be on @sedeh scope.
+
 [Live Demo](https://visualize-it.stackblitz.io) | [Source code](https://github.com/msalehisedeh/visualize-it/tree/master/src/app) | [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
-# Version 1.5.0
-It was brought to my attention that some users have trouble using my components in their angular 6 environment. Since I had only updated few dependencies when moved to Angular 6, I am thinking dependencies are causing issues. So, for this release, I am updating all dependencies to what Angular 6 applications are expecting to have. Please let me know if this is fixing or not fixing any issues you are facing.
-
-## Version 1.4.0
-Added ability to display nodes with gradient colors to make it look a bit three dimentional and more visually attractive.
-
-## Version 1.3.9
-Realized under certain situations, you may want to have control over the spaces between nodes. As a result, I made the hard coded values available to you. Now you can define how close you want the nodes to be with respect to each other.
-
-## Version 1.3.8
-Explanation of node relationship was confusing to myself. As a result, decided to clarify it.
-
-## Version 1.3.7
-* Disabled the event handling of full screen expansion on mac OS. There is a known problem with webkit on mac OS (https://bugs.chromium.org/p/chromium/issues/detail?id=138368) which caused problem with full-screen/escape event handling.
-
-## Version 1.3.6
-* Added option to display connections between nodes in curves or straight lines.
-* Added option to outline or fill Nodes.
-
-## Version 1.3.5
-* Added ability to stop/resume animation.
-* Added indicator of zoom level.
-* Added ability show node size or normalize node size on zoom.
-
-## Version 1.3.4
-* Added ability to lock nodes after dragging.
-* On Initial time, centring the view.
-* Added ability to warn if any part of the network do not have a matching node.
-* Fixed escaping view problem when user clicks on escape key.
-
-## Version 1.3.3
-Added ability to show the graph in full screen mode.
-
-## Version 1.3.2
-Trying to fix issue with stackblitz.
-
-## Version 1.3.1
-Fixed a logic on displaying data when request is sent for the second time.
-
-## Version 1.3.0
-Added Ability to display details of a node in tool-tip.
-
-## Version 1.2.3
-* Added Arrows directionality on links. 
-* Updated code to allow you toggle displaying of arrows and toggle displaying of node categories with node names.
-
-## Version 1.2.2
-Legend information ended up displaying in single line after compilation and uploading to npm. fixed the issue.
-
-## Version 1.2.0
-Added ability to see node types on hover and updated legend text.
-
-## Version 1.1.0
-Missed including the D3 library in the deployed product as angular packagr is not able to do it automatically. Also corrected the component name
-
-## Version 1.0.0
 
 ```javascript
 MODULE:
@@ -183,6 +129,29 @@ for projects started with angular 6 your `angular.json` file include the followi
       ....
 
 ```
+
+## Versions
+
+| Version      |Description                                                           |
+|--------------|----------------------------------------------------------------------|
+|version 1.5.1 |Fix dependencies.                                                     |
+|version 1.5.0 |It was brought to my attention that some users have trouble using my components in their angular 6 environment. Since I had only updated few dependencies when moved to Angular 6, I am thinking dependencies are causing issues. So, for this release, I am updating all dependencies to what Angular 6 applications are expecting to have. Please let me know if this is fixing or not fixing any issues you are facing. |
+|version 1.4.0 |Added ability to display nodes with gradient colors to make it look a bit three dimensional and more visually attractive. |
+|version 1.3.9 |Realized under certain situations, you may want to have control over the spaces between nodes. As a result, I made the hard coded values available to you. Now you can define how close you want the nodes to be with respect to each other. |
+|version 1.3.8 |Explanation of node relationship was confusing to myself. As a result, decided to clarify it. |
+|version 1.3.7 |Disabled the event handling of full screen expansion on mac OS. There is a known problem with webkit on mac OS (https://bugs.chromium.org/p/chromium/issues/detail?id=138368) which caused problem with full-screen/escape event handling. |
+|version 1.3.6 |Added option to display connections between nodes in curves or straight lines. Added option to outline or fill Nodes. |
+|version 1.3.5 |Added ability to stop/resume animation. Added indicator of zoom level. Added ability show node size or normalize node size on zoom. |
+|version 1.3.4 |Added ability to lock nodes after dragging. On Initial time, centring the view. Added ability to warn if any part of the network do not have a matching node. Fixed escaping view problem when user clicks on escape key. |
+|version 1.3.3 |Added ability to show the graph in full screen mode.                  |
+|version 1.3.2 |Trying to fix issue with stackblitz.                                  |
+|version 1.3.1 |Fixed a logic on displaying data when request is sent for the second time. |
+|version 1.3.0 |Added Ability to display details of a node in tool-tip.               |
+|version 1.2.3 |Added Arrows directionality on links. Updated code to allow you toggle displaying of arrows and toggle displaying of node categories with node names. |
+|version 1.2.2 |Legend information ended up displaying in single line after compilation and uploading to npm. fixed the issue. |
+|version 1.2.0 |Added ability to see node types on hover and updated legend text.     |
+|version 1.1.0 |Missed including the D3 library in the deployed product as angular packagr is not able to do it automatically. Also corrected the component name |
+|version 1.0.0 |Initial release.                                                      |
 
 
 ![alt text](https://raw.githubusercontent.com/msalehisedeh/visualize-it/master/sample.png  "What you would see when a visualize-it is used")
