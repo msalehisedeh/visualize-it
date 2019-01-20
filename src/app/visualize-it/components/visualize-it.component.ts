@@ -69,7 +69,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
   @ViewChild("d3Container")
   d3Container;
 
-  constructor(private el: ElementRef){
+  constructor() {
     if (navigator.platform.toUpperCase().indexOf('MAC')<0) {
       document.addEventListener("webkitfullscreenchange", (event) => {
         if(!window.screenTop && !window.screenY) {
@@ -139,10 +139,11 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
       if (errors.length) {
         this.d3Container.nativeElement.innerHTML = "<div class='danger'>"+errors.join("<br/>")+"</div>";
       } else {
+        const el = this.d3Container.nativeElement.parentNode;
         const config = {
           width: window.innerWidth, 
           height: window.innerHeight,
-          offset: {x: this.el.nativeElement.offsetLeft, y: this.el.nativeElement.offsetTop}, 
+          offset: {x: el.offsetLeft, y: el.offsetTop}, 
           data: dataSet,
           mapping: this.typeMapping, 
           showTypeOnHover: this.showTypeOnHover, 
@@ -200,6 +201,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
     const doc: any = document;
 
     if (flag) {
+      const el = this.d3Container.nativeElement.parentNode;
       const element: any = doc.documentElement;
       if(element.requestFullscreen) {
         element.requestFullscreen();
@@ -210,7 +212,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
       } else if(element.msRequestFullscreen) {
         element.msRequestFullscreen();
       }
-      this.el.nativeElement.classList.add("expanded-container");
+      el.classList.add("expanded-container");
       this.expanded = true;
       if (window["centerVisibility"]) {
         window["centerVisibility"](0, 0);
@@ -223,10 +225,11 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
       } else if(doc.webkitExitFullscreen) {
         doc.webkitExitFullscreen();
       }
-      this.el.nativeElement.classList.remove("expanded-container");
+      const el = this.d3Container.nativeElement.parentNode;
+      el.classList.remove("expanded-container");
       this.expanded = false;
       if (window["centerVisibility"]) {
-        window["centerVisibility"](this.el.nativeElement.offsetLeft, this.el.nativeElement.offsetTop);
+        window["centerVisibility"](el.offsetLeft, el.offsetTop);
       }
     }
   }

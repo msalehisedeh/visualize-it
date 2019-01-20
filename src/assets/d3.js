@@ -41,7 +41,6 @@ var showArrows = false;
 var forceStop = false;
 var enabledNodeTooltip = false;
 var showCurvedLines = "false";
-var gradientsEnabled = true;
 
 var minColorGroup = 0;
 var maxColorGroup = 1;
@@ -58,10 +57,7 @@ function toggleFills() {
   if (outline) {
     tocolor = "stroke"
     towhite = "fill"
-  }else {
-    tocolor = "fill";
-    towhite = "stroke";
-  }
+  }  
 }
 toggleFills();
 
@@ -81,7 +77,6 @@ function initiateD3(graphConfiguration) {
   enabledNodeTooltip = graphConfiguration.enableTooltip;
   showCurvedLines = graphConfiguration.showCurvedConnections;
   outline = graphConfiguration.outlineNodes;
-  gradientsEnabled = graphConfiguration.gradientsEnabled;
 
   color = d3.scale.linear()
   .domain([minColorGroup, (minColorGroup+maxColorGroup)/2, maxColorGroup])
@@ -92,8 +87,8 @@ function initiateD3(graphConfiguration) {
   size = d3.scale.pow().exponent(1).domain([1,100]).range([8,24]);
 
   force = d3.layout.force()
-  .linkDistance(graphConfiguration.fixedDistance)
-  .charge(graphConfiguration.charge)
+  .linkDistance(60)
+  .charge(-300)
   .size([w,h]);
 
   drag = force.drag().on("dragstart", dragstart);
@@ -115,25 +110,6 @@ function initiateD3(graphConfiguration) {
     .attr("d", "M0,-5L10,0L0,5")
     .style("display",function(d) { return showArrows ? "inline":"none"})
     .style("fill", "black");
-  }
-  if (gradientsEnabled) {
-    var grads = svg.append("defs").selectAll("radialGradient")
-    .data(graph.nodes)
-   .enter()
-    .append("radialGradient")
-    .attr("gradientUnits", "objectBoundingBox")
-    .attr("cx", 0)
-    .attr("cy", 0)
-    .attr("r", "100%")
-    .attr("id", function(d, i) { return "grad" + i; });
-
-    grads.append("stop")
-        .attr("offset", "0%")
-        .style("stop-color", "white");
-
-    grads.append("stop")
-        .attr("offset", "100%")
-        .style("stop-color",  function(d) { return color(d.group/10); });
   }
   if (enabledNodeTooltip) {
     tooltip = d3.select(targetDiv).append("div").attr("class", "tooltip").style("opacity", 0);
@@ -191,12 +167,9 @@ function initiateD3(graphConfiguration) {
     .attr("d", d3.svg.symbol()
     .size(function(d) { return Math.PI*Math.pow(size(d.size)||settingsConfiguration.nominalBaseNodeSize,2); })
     .type(function(d) { return d.type ? d.type : "circle"; }))
-    .style(tocolor, function(d, i) {
-      if (gradientsEnabled &&  tocolor == "fill") {
-        return "url(#grad" + i + ")";
-      } else if (isNumber(d.group) && d.group>=0) {
-        return color(d.group/10);
-      } else return settingsConfiguration.defaultNnodeColor; })
+    .style(tocolor, function(d) { 
+      if (isNumber(d.group) && d.group>=0) return color(d.group/10);
+      else return settingsConfiguration.defaultNnodeColor; })
   //.attr("r", function(d) { return size(d.size)||settingsConfiguration.nominalBbaseNodeSize; })
     .style("stroke-width", settingsConfiguration.nominalStroke)
     .style(towhite, "white");
@@ -205,7 +178,7 @@ function initiateD3(graphConfiguration) {
     .enter().append("text")
     .attr("dy", ".35em")
   .style("font-size", settingsConfiguration.nominalTextSize + "px")
-  var images = node.append("svg:image")
+  var images = circle.append("svg:image")
   .attr("xlink:href",  function(d) { return d.image;})
   .attr("x", function(d) { return - d.size;})
   .attr("y", function(d) { return - d.size;})
