@@ -21,6 +21,7 @@ EXPORTS:
 ## Component attributes
 | Component attribute      |status    |Description                                                 |
 |--------------------------|----------|------------------------------------------------------------|
+|visualizerId              |Optional  |ID of the object.                                           |
 |width                     |Required  |Width of display area.                                      |
 |height                    |Required  |Height of display area.                                     |
 |data                      |Required  |Data containing node relationship to be displayed           |
@@ -72,6 +73,7 @@ in your html:
 <visualize-it	
   [data]="data.names" 
   [typeMapping]="data.roles" 
+  visualizerId="myVisualizationInstance"
   enableLegends="true"
   enableTooltip="true"
   gradientsEnabled="false"
@@ -134,6 +136,9 @@ for projects started with angular 6 your `angular.json` file include the followi
 
 | Version      |Description                                                           |
 |--------------|----------------------------------------------------------------------|
+|version 1.5.5 |Apparently stackblitz.io have issues with injecting Renderer or childview in a vomponent. found a solution by instantiating renderer thruogh renderer factory. |
+|version 1.5.4 |Fixing issue with stackblitz.io                                       |
+|version 1.5.3 |Fix missing d3 file. My build process is not automatically copy files and sometimes i forget to do it. |
 |version 1.5.2 |Fixing issue with stackblitz.io                                       |
 |version 1.5.1 |Fix dependencies.                                                     |
 |version 1.5.0 |It was brought to my attention that some users have trouble using my components in their angular 6 environment. Since I had only updated few dependencies when moved to Angular 6, I am thinking dependencies are causing issues. So, for this release, I am updating all dependencies to what Angular 6 applications are expecting to have. Please let me know if this is fixing or not fixing any issues you are facing. |

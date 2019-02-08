@@ -4,6 +4,10 @@
     Welcome to {{ title }}!
   </h1>
 </div>
+<div class="resources">
+  <a href="https://www.npmjs.com/package/@sedeh/into-pipesvisualize-it">npm install @sedeh/visualize-it</a>
+  <p>Tested On Safari, Chrome, Mozilla, and IE11 browsers.</p>
+</div>
 <div class="points-maker" *ngIf="!displayEntry">
   <label for="dataselection">Select a Data set example</label>
   <select id="dataselection" (change)="visualizeDataSet($event)">
@@ -61,8 +65,9 @@
   
 </fieldset>
 <visualize-it *ngIf="shouldVisualizeIt"
+  visualizerId="visualize-1"
   [style.display]="displayEntry ? 'none':'block'" 
-  enableLegends="true"
+  [enableLegends]="true"
   width="calc(100vw - 44px)" 
   height="400px"
   showTypeOnHover="true"

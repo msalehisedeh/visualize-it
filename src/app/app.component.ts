@@ -36,7 +36,7 @@ export class AppComponent {
     })
   }
 
-  distance(event) {
+  distance(event: any) {
     const code = event.which;
 
     this.fixedDistance = event.target.value;
@@ -45,7 +45,7 @@ export class AppComponent {
       setTimeout(()=>this.shouldVisualizeIt=true, 6)
     }
   }
-  repeal(event) {
+  repeal(event: any) {
     const code = event.which;
 
     this.repealForce = event.target.value;
@@ -54,23 +54,23 @@ export class AppComponent {
       setTimeout(()=>this.shouldVisualizeIt=true, 6)
     }
   }
-  curveIt(event) {
+  curveIt(event: any) {
     this.shouldVisualizeIt = false;
     this.showCurvedConnections = event.target.checked ? "true":"false";
     setTimeout(()=>this.shouldVisualizeIt=true, 6)
   }
-  gradients(event) {
+  gradients(event: any) {
     this.shouldVisualizeIt = false;
     this.gradientsEnabled = event.target.checked;
     setTimeout(()=>this.shouldVisualizeIt=true, 6)
   }
-  outline(event){
+  outline(event: any){
     this.shouldVisualizeIt = false;
     this.outlineNodes = event.target.checked;
     setTimeout(()=>this.shouldVisualizeIt=true, 6)
   }
 
-  addDataEntry(entryName , entryJson) {
+  addDataEntry(entryName: string , entryJson: string) {
     if (entryName.length && entryJson.length) {
       try {
         const entry = JSON.parse(entryJson);
@@ -87,7 +87,7 @@ export class AppComponent {
     }
   }
 
-  private findEntryLists(json, path, pathList) {
+  private findEntryLists(json: any, path: string, pathList: any[]) {
     if ( !(typeof json === "string") && (typeof json === "object") && !(json instanceof Array) ) {      
       Object.keys(json).map( (item) => {
         const x = path.length ? path+"."+item : item;
@@ -121,7 +121,7 @@ export class AppComponent {
     // Then clear pasted content from the input
   }
 
-  visualizeDataSet(event) {
+  visualizeDataSet(event: any) {
     const data = event.target.value;
 
     this.myDataSet = undefined;

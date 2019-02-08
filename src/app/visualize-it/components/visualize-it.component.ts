@@ -8,9 +8,9 @@ import {
   AfterViewInit ,
   Input,
   Output,
-  ViewChild,
   EventEmitter,
-  ElementRef
+  Renderer2,
+  RendererFactory2
 } from '@angular/core';
 
 @Component({
@@ -23,9 +23,14 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
   showLegend = false;
   showHelp = false;
   expanded = false;
+
+  private renderer: Renderer2;
   
   @Input("showCurvedConnections")
   showCurvedConnections: string;
+  
+  @Input("visualizerId")
+  visualizerId = 'd3-container';
   
   @Input("enableTooltip")
   enableTooltip: boolean;
@@ -66,17 +71,15 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
   @Output("onVisualization")
   onVisualization = new EventEmitter();
 
-  @ViewChild("d3Container")
-  d3Container;
-
-  constructor() {
+  constructor(private factory: RendererFactory2) {
+    this.renderer = this.factory.createRenderer(null, null);
     if (navigator.platform.toUpperCase().indexOf('MAC')<0) {
-      document.addEventListener("webkitfullscreenchange", (event) => {
+      document.addEventListener("webkitfullscreenchange", (event: Event) => {
         if(!window.screenTop && !window.screenY) {
           this.expand(false);
         }
       });
-      document.addEventListener("mozfullscreenchange", (event) => {
+      document.addEventListener("mozfullscreenchange", (event: Event) => {
         const win: any = window;
         const isFullScreen = win.fullScreen ||
                             (win.innerWidth == screen.width && win.innerHeight == screen.height)
@@ -84,7 +87,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
           this.expand(false);
         }
       });
-      document.addEventListener("MSFullscreenChange", (event) => {
+      document.addEventListener("MSFullscreenChange", (event: Event) => {
         const win: any = window;
         const isFullScreen = win.fullScreen ||
                             (win.innerWidth == screen.width && win.innerHeight == screen.height)
@@ -95,7 +98,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
     }
   }
 
-  private triggerEvaluation(points) {
+  private triggerEvaluation(points: any) {
     if (points.length) {
       const indexOf = {};
       const errors = [];
@@ -103,9 +106,9 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
         links:[],
         nodes: []
       };
-      this.d3Container.nativeElement.innerHTML = "";
-      points.map( (node,index) => indexOf[node.id] = index);
-      points.map( (node, i) => {
+      this.renderer.selectRootElement('#' + this.visualizerId).innerHTML = "";
+      points.map( (node: any,index: number) => indexOf[node.id] = index);
+      points.map( (node: any, i: number) => {
         dataSet.nodes.push({
           size: node.size ? node.size: 10, 
           group: node.group? node.group : 0, 
@@ -115,7 +118,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
           data: node.data ? node.data : []
         });
         if(node.sources) {
-          node.sources.map( (id) => {
+          node.sources.map( (id: string) => {
             const item = indexOf[id];
             if (item != undefined) {
               dataSet.links.push({source: item, target: i});
@@ -137,9 +140,9 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
       });
 
       if (errors.length) {
-        this.d3Container.nativeElement.innerHTML = "<div class='danger'>"+errors.join("<br/>")+"</div>";
+        this.renderer.selectRootElement('#' + this.visualizerId).innerHTML = "<div class='danger'>"+errors.join("<br/>")+"</div>";
       } else {
-        const el = this.d3Container.nativeElement.parentNode;
+        const el = this.renderer.selectRootElement('#' + this.visualizerId).parentNode;
         const config = {
           width: window.innerWidth, 
           height: window.innerHeight,
@@ -154,12 +157,12 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
           charge: -1 * this.repealForce,
           fixedDistance: this.fixedDistance,
           gradientsEnabled: this.gradientsEnabled,
-          targetDiv: "#d3-container"
+          targetDiv: "#" + this.visualizerId
         };
         window['initiateD3'](config);
       }
     } else {
-      this.d3Container.nativeElement.innerHTML = "<div class='danger'>Missing data.</div>";
+      this.renderer.selectRootElement('#' + this.visualizerId).innerHTML = "<div class='danger'>Missing data.</div>";
     }
   }
 
@@ -185,7 +188,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
     }
  	}
    
-	private loadScript(url, id) {    
+	private loadScript(url: string, id: string) {    
     return new Promise((resolve, reject) => {
       const scriptElement = document.createElement('script');
     
@@ -197,11 +200,11 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
 		})
   }
 
-  expand(flag) {
+  expand(flag: boolean) {
     const doc: any = document;
 
     if (flag) {
-      const el = this.d3Container.nativeElement.parentNode;
+      const el = this.renderer.selectRootElement('#' + this.visualizerId).parentNode;
       const element: any = doc.documentElement;
       if(element.requestFullscreen) {
         element.requestFullscreen();
@@ -225,7 +228,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
       } else if(doc.webkitExitFullscreen) {
         doc.webkitExitFullscreen();
       }
-      const el = this.d3Container.nativeElement.parentNode;
+      const el = this.renderer.selectRootElement('#' + this.visualizerId).parentNode;
       el.classList.remove("expanded-container");
       this.expanded = false;
       if (window["centerVisibility"]) {
@@ -234,7 +237,7 @@ export class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges  {
     }
   }
 
-  onchange(event) {
+  onchange(event: any) {
     this.triggerEvaluation(event.points);
   }
 }

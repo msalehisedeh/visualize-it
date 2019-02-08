@@ -1,9 +1,12 @@
-import { OnInit, OnChanges, AfterViewInit, EventEmitter } from '@angular/core';
+import { OnInit, OnChanges, AfterViewInit, EventEmitter, RendererFactory2 } from '@angular/core';
 export declare class VisualizeItComponent implements OnInit, AfterViewInit, OnChanges {
+    private factory;
     showLegend: boolean;
     showHelp: boolean;
     expanded: boolean;
+    private renderer;
     showCurvedConnections: string;
+    visualizerId: string;
     enableTooltip: boolean;
     gradientsEnabled: boolean;
     repealForce: number;
@@ -17,13 +20,12 @@ export declare class VisualizeItComponent implements OnInit, AfterViewInit, OnCh
     width: string;
     height: string;
     onVisualization: EventEmitter<{}>;
-    d3Container: any;
-    constructor();
+    constructor(factory: RendererFactory2);
     private triggerEvaluation(points);
     ngOnChanges(changes: any): void;
     ngOnInit(): void;
     ngAfterViewInit(): Promise<void>;
     private loadScript(url, id);
-    expand(flag: any): void;
+    expand(flag: boolean): void;
     onchange(event: any): void;
 }

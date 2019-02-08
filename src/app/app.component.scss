@@ -17,6 +17,9 @@
     width: 100%;
     white-space: pre-wrap;
 }
+.resources {
+  text-align: center;
+}
 
 .info {
   background-color: #29ee22;
@@ -76,4 +79,7 @@ td {
 th {
   text-align: left;
   color: #633;
+}
+::ng-deep visualize-it {
+display: inline-block;
 }
