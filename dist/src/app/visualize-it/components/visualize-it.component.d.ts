@@ -19,13 +19,13 @@ export declare class VisualizeItComponent implements OnInit, AfterViewInit, OnCh
     typeMapping: {};
     width: string;
     height: string;
-    onVisualization: EventEmitter<{}>;
+    onVisualization: EventEmitter<any>;
     constructor(factory: RendererFactory2);
-    private triggerEvaluation(points);
+    private triggerEvaluation;
     ngOnChanges(changes: any): void;
     ngOnInit(): void;
     ngAfterViewInit(): Promise<void>;
-    private loadScript(url, id);
+    private loadScript;
     expand(flag: boolean): void;
     onchange(event: any): void;
 }
