@@ -1,0 +1,128 @@
+:host {
+  position: relative;
+  display: block;
+
+  &.expanded-container {
+    position: inherit !important;
+    
+    .d3-container{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      border: 0 !important;
+      margin: 0 !important;
+      z-index: 3;
+    }
+  }
+  
+  .legends {
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    z-index: 4;
+    a {
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.2rem;
+
+      span {
+        background-color: #eee;
+        padding: 0 3px;
+        width: 13px;
+        float: left;
+        height: 25px;
+        line-height: 25px;
+        border: 1px solid #3a3939;		
+      }
+
+      .expand {
+        text-align: center;
+        border-left: 0;
+        border-right: 0;
+      }
+      .legend {
+        border-radius: 5px 0 0 5px;
+        border-right: 0;
+      }
+      .help {
+        border-radius: 0 5px 5px 0;
+        border-left: 0;
+      }
+      &:hover {
+        color: #fff;
+
+        span {
+          background-color: #b65200;
+        }
+      }
+    }
+    .info {
+      padding: 5px;
+      border: 1px solid #888;
+      border-radius: 5px;
+      position: absolute;
+      right: 0px;
+      font-size: 0.7rem;
+      line-height: 1rem;
+      box-shadow: 1px 1px 3px #bbb;
+      background-color: #fff;
+      width: 350px;
+      top: 15px;
+      legend {
+        color: #af8d03;
+        font-size: 1rem;
+        font-weight: bold;
+      }
+      strong {
+        color: #8f0000;
+        font-size: 0.8rem;
+        margin-left: 20px;
+      }
+    }
+  }
+  
+  .d3-container {
+    border: 1px solid #633;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: #fefefe;
+    margin: 5px 3px;
+    overflow: hidden;
+
+    ::ng-deep .danger {
+      background-color: #a80505;
+      color: #fff;
+      padding: 10px;
+      display: table;
+      width: 100%
+    }  
+  }
+
+  ::ng-deep path.link {
+    fill: none;
+    stroke: #666;
+    stroke-width: 1.5px;
+  }
+  ::ng-deep circle {
+    fill: #ccc;
+    stroke: #fff;
+    stroke-width: 1.5px;
+  }
+  ::ng-deep text {
+    fill: #000;
+    font: 10px sans-serif;
+    pointer-events: none;
+  }
+  ::ng-deep div.tooltip {	
+    position: absolute;			
+    padding: 5px;				
+    font: 12px sans-serif;		
+    background: #cfcfcf;	
+    border: 1px solid #3a3939;		
+    border-radius: 4px;			
+    pointer-events: none;		
+    z-index: 5;	
+  }
+}
