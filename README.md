@@ -7,8 +7,8 @@ This code is copied and enhanced from http://bl.ocks.org/eyaler/10586116. The in
 
 **NOTE:** Starting with version 1.5.1 all previous versions are deprecated and you need to import this library through @sedeh/visualize-it. Future bug fixes / enhancements will be on @sedeh scope.
 
-[Live Demo](https://visualize-it.stackblitz.io) | 
-[NPM](https://www.npmjs.com/package/@sedeh/into-pipesvisualize-it) | 
+[Live Demo](https://stackblitz.com/edit/visualize-it?file=src%2Fapp%2Fapp.component.ts) | 
+[NPM](https://www.npmjs.com/package/@sedeh/visualize-it) | 
 [Comments/Requests](https://github.com/msalehisedeh/visualize-it/issues)
 
 
